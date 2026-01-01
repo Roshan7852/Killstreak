@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Killstreak | The Future of Esports</title>
+    
+    <link rel="icon" type="image/png" href="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CORE SETTINGS --- */
+        :root {
+            --primary: #FFC107;
+            --primary-glow: rgba(255, 193, 7, 0.5);
+            --bg-dark: #090909;
+            --bg-panel: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-white: #ffffff;
+            --text-grey: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif; /* Tech Font */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.05) 0%, transparent 20%);
+        }
+
+        /* --- 2. NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(9, 9, 9, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo { height: 45px; width: auto; }
+
+        .btn-download {
+            background: var(--primary);
+            color: #000;
+            padding: 10px 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); /* Gaming Shape */
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary-glow); }
+
+        /* --- 3. HERO SECTION (SPLIT LAYOUT) --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 8% 50px;
+            position: relative;
+        }
+
+        .hero-text { width: 50%; z-index: 2; }
+        .hero-visual { width: 45%; position: relative; display: flex; justify-content: center; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 10px #00ff88; }
+
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span { color: var(--primary); }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-grey);
+            margin-bottom: 40px;
+            max-width: 90%;
+            line-height: 1.4;
+        }
+
+        /* 3D Phone styling */
+        .hero-phone {
+            width: 320px;
+            border-radius: 40px;
+            border: 10px solid #1a1a1a;
+            box-shadow: 0 0 60px rgba(255, 193, 7, 0.2);
+            transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+            transition: transform 0.5s ease;
+            background: #000;
+        }
+
+        .hero-phone:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+        .hero-phone img { width: 100%; display: block; border-radius: 30px; }
+
+        /* Background Glow behind phone */
+        .glow-circle {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.2;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* --- 4. SCROLLING MARQUEE --- */
+        .marquee-container {
+            background: var(--primary);
+            color: #000;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            transform: rotate(-2deg);
+            margin: 50px 0;
+            border-top: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+            font-weight: 800;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        /* --- 5. FEATURES GRID --- */
+        .section { padding: 100px 8%; }
+        
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-size: 3.5rem; text-transform: uppercase; line-height: 1; }
+        .section-header .sub { color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .glass-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .glass-card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(255, 193, 7, 0.05); }
+
+        .card-icon { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+        .glass-card h3 { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; }
+        .glass-card p { color: var(--text-grey); font-size: 1.1rem; }
+
+        /* --- 6. SCREENSHOTS --- */
+        .gallery-flex {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .shot-frame {
+            width: 250px;
+            border: 4px solid #333;
+            border-radius: 20px;
+            transition: 0.4s;
+            filter: grayscale(0.6);
+        }
+
+        .shot-frame:hover { filter: grayscale(0); transform: scale(1.1); border-color: var(--primary); z-index: 10; }
+        .shot-frame img { width: 100%; display: block; border-radius: 16px; }
+
+        /* --- 7. INSTALL STEPS (CLEAN) --- */
+        .install-box {
+            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            border: 1px solid var(--border);
+            padding: 60px;
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .step-num {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.1);
+            line-height: 1;
+            margin-right: 20px;
+        }
+        
+        .step-content h4 { color: var(--primary); font-size: 1.4rem; margin-bottom: 5px; text-transform: uppercase; }
+
+        /* --- 8. FOOTER --- */
+        footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: #000;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 100px; }
+            .hero-text { width: 100%; margin-bottom: 60px; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero-visual { width: 100%; }
+            .status-badge { margin: 0 auto 20px; }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <img src="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png" alt="Logo" class="nav-logo">
+        <a href="#" onclick="startDownload()" class="btn-download">Get App</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-text">
+            <div class="status-badge"><div class="status-dot"></div> Servers Online</div>
+            <h1>Play.<br><span>Dominate.</span><br>Earn.</h1>
+            <p>The next-gen tournament platform for BGMI & Free Fire. Low competition, instant UPI withdrawals, and 100% fair play.</p>
+            
+            <a href="#" onclick="startDownload()" class="btn-download" style="padding: 15px 40px; font-size: 1.3rem;">
+                Download APK v1.0
+            </a>
+            <p style="font-size: 0.8rem; color: #555; margin-top: 10px;">Secure Download • 60MB • Android 8+</p>
+        </div>
+
+        <div class="hero-visual">
+            <div class="glow-circle"></div>
+            <div class="hero-phone">
+                <img src="image_c5f644.png" alt="App Home">
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS • 
+            WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="section-header">
+            <div class="sub">Why Killstreak?</div>
+            <h2>Built for Grinders</h2>
+        </div>
+        
+        <div class="grid">
+            <div class="glass-card">
+                <div class="card-icon">⚡</div>
+                <h3>Instant Payouts</h3>
+                <p>No waiting for 24 hours. Withdraw your kill earnings directly to UPI immediately after the match ends.</p>
+            </div>
+            <div class="glass-card">
+                <div class="card-icon">🛡️</div>
+                <h3>Anti-Cheat</h3>
+                <p>We take fair play seriously. Our manual spectating and report system ensures a hacker-free lobby.</p>
+            </div>
+            <div class="glass-card">
+                <div class="card-icon">📊</div>
+                <h3>Detailed Stats</h3>
+                <p>Track your Kill/Death ratio, total earnings, and match history with our pro-level dashboard.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: #000;">
+        <div class="section-header" style="text-align: center;">
+            <div class="sub">Interface</div>
+            <h2>Clean Dark Mode</h2>
+        </div>
+        <div class="gallery-flex">
+            <div class="shot-frame"><img src="image_c5f67d.png" alt="Wallet"></div>
+            <div class="shot-frame"><img src="image_c5f964.png" alt="Withdraw"></div>
+            <div class="shot-frame"><img src="image_c5f9a2.png" alt="Stats"></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="install-box">
+            <div class="section-header">
+                <h2>How to Install</h2>
+                <p style="color: #666;">Real Money Gaming apps are not available on Play Store. Install safely below:</p>
+            </div>
+
+            <div class="step-row">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h4>Download APK</h4>
+                    <p>Click the download button. Ignore the "Harmful file" warning - this is standard for all off-market apps.</p>
+                </div>
+            </div>
+
+            <div class="step-row">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h4>Enable Unknown Sources</h4>
+                    <p>Go to Settings > Security > Install Unknown Apps > Allow for Chrome/Browser.</p>
+                </div>
+            </div>
+
+            <div class="step-row">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h4>Install & Win</h4>
+                    <p>Open the file, install it, and register to start your first match.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png" alt="Logo" style="height: 60px; opacity: 0.5; margin-bottom: 20px;">
+        <p style="color: #444; font-size: 0.9rem;">&copy; 2025 Killstreak Esports. Play Responsibly.</p>
+    </footer>
+
+    <script>
+        function startDownload() {
+            // YOUR DIRECT GOOGLE DRIVE LINK IS HERE
+            const apkUrl = "https://drive.google.com/uc?export=download&id=1JiZTS7A0m7M2J5ZfM-dQVjcT0Ib2Yd88";
+            window.location.href = apkUrl;
+        }
+
+        // Simple tilt effect for hero phone
+        const phone = document.querySelector('.hero-phone');
+        document.addEventListener('mousemove', (e) => {
+            if(window.innerWidth > 900) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                phone.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+    </script>
+
+</body>
+</html>
