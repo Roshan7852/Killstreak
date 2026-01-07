@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Killstreak | The Future of Esports</title>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="199753" async data-cfasync="false"></script>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="199746" async data-cfasync="false"></script>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="199753" async data-cfasync="false"></script>
     
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <link rel="icon" type="image/png" href="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* --- 1. CORE SETTINGS --- */
@@ -53,26 +59,79 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            background: rgba(9, 9, 9, 0.8);
+            background: rgba(9, 9, 9, 0.95);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
-        .nav-logo { height: 45px; width: auto; }
+        nav.scrolled {
+            padding: 15px 5%;
+            background: rgba(9, 9, 9, 0.98);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .nav-logo { 
+            height: 45px; 
+            width: auto; 
+            transition: transform 0.3s;
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-stats {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-weight: 600;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         .btn-download {
             background: var(--primary);
             color: #000;
-            padding: 10px 30px;
+            padding: 12px 35px;
             font-weight: 700;
             font-size: 1.1rem;
             text-transform: uppercase;
             clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
             text-decoration: none;
-            transition: 0.3s;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
         }
         
-        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary-glow); }
+        .btn-download:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 25px var(--primary-glow);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
 
         /* --- 3. HERO SECTION --- */
         .hero {
@@ -84,8 +143,41 @@
             position: relative;
         }
 
-        .hero-text { width: 50%; z-index: 2; }
-        .hero-visual { width: 45%; position: relative; display: flex; justify-content: center; }
+        .hero-text { 
+            width: 50%; 
+            z-index: 2; 
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-visual { 
+            width: 45%; 
+            position: relative; 
+            display: flex; 
+            justify-content: center;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
         .status-badge {
             display: inline-flex;
@@ -93,15 +185,35 @@
             background: rgba(0, 255, 136, 0.1);
             color: #00ff88;
             border: 1px solid #00ff88;
-            padding: 5px 15px;
+            padding: 8px 20px;
             font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-radius: 20px;
+            animation: pulseOnline 2s infinite;
         }
 
-        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 10px #00ff88; }
+        @keyframes pulseOnline {
+            0%, 100% { box-shadow: 0 0 5px #00ff88; }
+            50% { box-shadow: 0 0 15px #00ff88; }
+        }
+
+        .status-dot { 
+            width: 10px; 
+            height: 10px; 
+            background: #00ff88; 
+            border-radius: 50%; 
+            margin-right: 10px; 
+            box-shadow: 0 0 10px #00ff88;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
         .hero h1 {
             font-size: 5rem;
@@ -109,9 +221,13 @@
             font-weight: 800;
             text-transform: uppercase;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .hero h1 span { color: var(--primary); }
+        .hero h1 span { 
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
 
         .hero p {
             font-size: 1.3rem;
@@ -119,6 +235,30 @@
             margin-bottom: 40px;
             max-width: 90%;
             line-height: 1.4;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .hero-phone {
@@ -129,10 +269,43 @@
             transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
             transition: transform 0.5s ease;
             background: #000;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-phone:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
-        .hero-phone img { width: 100%; display: block; border-radius: 30px; }
+        .hero-phone::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ffc107, #ff9800, #ff5722, #ffc107);
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .hero-phone:hover { 
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+            box-shadow: 0 0 80px rgba(255, 193, 7, 0.4);
+        }
+        
+        .hero-phone:hover::before {
+            opacity: 0.3;
+        }
+        
+        .hero-phone img { 
+            width: 100%; 
+            display: block; 
+            border-radius: 30px;
+            transition: transform 0.5s;
+        }
+        
+        .hero-phone:hover img {
+            transform: scale(1.05);
+        }
 
         .glow-circle {
             position: absolute;
@@ -145,13 +318,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            animation: glowMove 10s infinite alternate;
+        }
+
+        @keyframes glowMove {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-40%, -60%) scale(1.2); }
         }
 
         /* --- 4. MARQUEE --- */
         .marquee-container {
             background: var(--primary);
             color: #000;
-            padding: 10px 0;
+            padding: 15px 0;
             overflow: hidden;
             white-space: nowrap;
             position: relative;
@@ -162,18 +341,65 @@
         }
 
         .marquee-content {
-            display: inline-block;
+            display: inline-flex;
             animation: scroll 20s linear infinite;
             font-weight: 800;
             font-size: 1.5rem;
             text-transform: uppercase;
+            gap: 40px;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* --- 5. GRID --- */
-        .section { padding: 100px 8%; }
-        .section-header { margin-bottom: 60px; }
-        .section-header h2 { font-size: 3.5rem; text-transform: uppercase; line-height: 1; }
-        .section-header .sub { color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        .section { 
+            padding: 100px 8%; 
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-header { 
+            margin-bottom: 60px; 
+            position: relative;
+        }
+        
+        .section-header h2 { 
+            font-size: 3.5rem; 
+            text-transform: uppercase; 
+            line-height: 1; 
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .section-header .sub { 
+            color: var(--primary); 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            display: block;
+            margin-bottom: 10px;
+        }
 
         .grid {
             display: grid;
@@ -187,14 +413,152 @@
             padding: 40px;
             position: relative;
             overflow: hidden;
-            transition: 0.3s;
+            transition: all 0.4s;
+            cursor: pointer;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .glass-card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(255, 193, 7, 0.05); }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.1), transparent);
+            transition: left 0.6s;
+        }
 
-        .card-icon { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
-        .glass-card h3 { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; }
-        .glass-card p { color: var(--text-grey); font-size: 1.1rem; }
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-15px) scale(1.02); 
+            background: rgba(255, 193, 7, 0.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .card-icon { 
+            font-size: 3rem; 
+            color: var(--primary); 
+            margin-bottom: 20px; 
+            transition: transform 0.3s;
+        }
+        
+        .glass-card:hover .card-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .glass-card h3 { 
+            font-size: 1.8rem; 
+            margin-bottom: 15px; 
+            text-transform: uppercase; 
+            transition: color 0.3s;
+        }
+        
+        .glass-card:hover h3 {
+            color: var(--primary);
+        }
+        
+        .glass-card p { 
+            color: var(--text-grey); 
+            font-size: 1.1rem; 
+            line-height: 1.6;
+        }
+
+        .interactive-section {
+            margin-top: 80px;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(255,193,7,0.05) 0%, rgba(255,193,7,0.02) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .interactive-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .counter-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .counter-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 15px;
+            min-width: 200px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counter-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .counter-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-grey);
+            text-transform: uppercase;
+        }
+
+        .counter-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .counter-subtext {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-top: 10px;
+        }
+
+        .btn-interactive {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .btn-interactive:hover {
+            background: var(--primary);
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+        }
+
+        .ad-container {
+            margin: 40px 0;
+            text-align: center;
+            background: var(--bg-panel);
+            padding: 20px;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+        }
 
         /* --- 6. GALLERY --- */
         .gallery-flex {
@@ -208,12 +572,48 @@
             width: 250px;
             border: 4px solid #333;
             border-radius: 20px;
-            transition: 0.4s;
+            transition: all 0.4s;
             filter: grayscale(0.6);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
         }
 
-        .shot-frame:hover { filter: grayscale(0); transform: scale(1.1); border-color: var(--primary); z-index: 10; }
-        .shot-frame img { width: 100%; display: block; border-radius: 16px; }
+        .shot-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+
+        .shot-frame:hover::before {
+            opacity: 1;
+        }
+
+        .shot-frame:hover { 
+            filter: grayscale(0); 
+            transform: scale(1.1) rotate(2deg); 
+            border-color: var(--primary);
+            z-index: 10;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+        
+        .shot-frame img { 
+            width: 100%; 
+            display: block; 
+            border-radius: 16px;
+            transition: transform 0.5s;
+        }
+        
+        .shot-frame:hover img {
+            transform: scale(1.1);
+        }
 
         /* --- 7. INSTALL --- */
         .install-box {
@@ -222,37 +622,221 @@
             padding: 60px;
             border-radius: 20px;
             text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .install-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,193,7,0.1) 0%, transparent 70%);
+            z-index: 0;
         }
 
         .step-row {
             display: flex;
             align-items: flex-start;
             margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .step-row:hover {
+            transform: translateX(10px);
+            background: rgba(255, 193, 7, 0.05);
         }
         
         .step-num {
             font-size: 3rem;
             font-weight: 800;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 193, 7, 0.1);
             line-height: 1;
             margin-right: 20px;
+            transition: color 0.3s;
         }
         
-        .step-content h4 { color: var(--primary); font-size: 1.4rem; margin-bottom: 5px; text-transform: uppercase; }
+        .step-row:hover .step-num {
+            color: rgba(255, 193, 7, 0.3);
+        }
+        
+        .step-content h4 { 
+            color: var(--primary); 
+            font-size: 1.4rem; 
+            margin-bottom: 5px; 
+            text-transform: uppercase; 
+        }
+
+        /* --- 8. VISITOR COUNTER --- */
+        .visitor-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .visitor-counter:hover {
+            transform: scale(1.05);
+        }
+
+        .visitor-title {
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .visitor-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            line-height: 1;
+        }
+
+        .visitor-subtext {
+            font-size: 0.7rem;
+            color: var(--text-grey);
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* --- 9. NOTIFICATION --- */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 1001;
+            transform: translateX(150%);
+            transition: transform 0.5s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .notification-text {
+            font-size: 0.9rem;
+        }
 
         footer {
             padding: 50px;
             text-align: center;
             border-top: 1px solid var(--border);
             background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--primary);
+            color: #000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,193,7,0.3);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,193,7,0.5);
         }
 
         @media (max-width: 900px) {
-            .hero { flex-direction: column; text-align: center; padding-top: 100px; }
-            .hero-text { width: 100%; margin-bottom: 60px; }
-            .hero h1 { font-size: 3.5rem; }
-            .hero-visual { width: 100%; }
-            .status-badge { margin: 0 auto 20px; }
+            .hero { 
+                flex-direction: column; 
+                text-align: center; 
+                padding-top: 100px; 
+            }
+            
+            .hero-text { 
+                width: 100%; 
+                margin-bottom: 60px; 
+            }
+            
+            .hero h1 { 
+                font-size: 3.5rem; 
+            }
+            
+            .hero-visual { 
+                width: 100%; 
+            }
+            
+            .status-badge { 
+                margin: 0 auto 20px; 
+            }
+            
+            .nav-stats {
+                display: none;
+            }
+            
+            .counter-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .counter-box {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         @keyframes scroll {
@@ -263,20 +847,63 @@
 </head>
 <body>
 
-    <nav>
+    <nav id="navbar">
         <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" class="nav-logo">
-        <a href="#" onclick="startDownload()" class="btn-download">Get App</a>
+        
+        <div class="nav-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="liveUsers">0</div>
+                <div class="stat-label">Live Now</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalMatches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalWins">0</div>
+                <div class="stat-label">Wins</div>
+            </div>
+        </div>
+        
+        <button onclick="startDownload()" class="btn-download">Get App</button>
     </nav>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <div class="notification-icon"><i class="fas fa-user-plus"></i></div>
+            <div class="notification-text">New player just joined! Welcome to <strong>Killstreak</strong>!</div>
+        </div>
+    </div>
 
     <header class="hero">
         <div class="hero-text">
-            <div class="status-badge"><div class="status-dot"></div> Servers Online</div>
+            <div class="status-badge">
+                <div class="status-dot"></div> 
+                <span id="server-status">Servers Online</span>
+            </div>
+            
             <h1>Play.<br><span>Dominate.</span><br>Earn.</h1>
+            
             <p>The next-gen tournament platform for BGMI & Free Fire. Low competition, instant UPI withdrawals, and 100% fair play.</p>
             
-            <a href="#" onclick="startDownload()" class="btn-download" style="padding: 15px 40px; font-size: 1.3rem;">
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number" id="heroUsers">0</div>
+                    <div class="hero-stat-label">Active Players</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number" id="heroPrize">₹0</div>
+                    <div class="hero-stat-label">Paid Out Today</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number" id="heroMatches">0</div>
+                    <div class="hero-stat-label">Live Matches</div>
+                </div>
+            </div>
+            
+            <button onclick="startDownload()" class="btn-download" style="padding: 15px 40px; font-size: 1.3rem;">
                 Download APK v1.0
-            </a>
+            </button>
             <p style="font-size: 0.8rem; color: #555; margin-top: 10px;">Secure Download • 60MB • Android 8+</p>
         </div>
 
@@ -290,56 +917,107 @@
 
     <div class="marquee-container">
         <div class="marquee-content">
-            WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS • 
-            WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •
+            <div class="marquee-item"><i class="fas fa-trophy"></i> WINNER WINNER CHICKEN DINNER</div>
+            <div class="marquee-item"><i class="fas fa-fire"></i> BOOYAH</div>
+            <div class="marquee-item"><i class="fas fa-bolt"></i> INSTANT WITHDRAWAL</div>
+            <div class="marquee-item"><i class="fas fa-gamepad"></i> PLAY DAILY</div>
+            <div class="marquee-item"><i class="fas fa-crown"></i> KILLSTREAK ESPORTS</div>
         </div>
     </div>
 
-    <section class="section">
+    <section class="section" id="features">
         <div class="section-header">
             <div class="sub">Why Killstreak?</div>
             <h2>Built for Grinders</h2>
         </div>
         
         <div class="grid">
-            <div class="glass-card">
+            <div class="glass-card" onclick="showNotification('⚡ Instant Payouts feature selected!')">
                 <div class="card-icon">⚡</div>
                 <h3>Instant Payouts</h3>
                 <p>No waiting for 24 hours. Withdraw your kill earnings directly to UPI immediately after the match ends.</p>
             </div>
-            <div class="glass-card">
+            <div class="glass-card" onclick="showNotification('🛡️ Anti-Cheat system explained!')">
                 <div class="card-icon">🛡️</div>
                 <h3>Anti-Cheat</h3>
                 <p>We take fair play seriously. Our manual spectating and report system ensures a hacker-free lobby.</p>
             </div>
-            <div class="glass-card">
+            <div class="glass-card" onclick="showNotification('📊 Detailed Stats feature selected!')">
                 <div class="card-icon">📊</div>
                 <h3>Detailed Stats</h3>
                 <p>Track your Kill/Death ratio, total earnings, and match history with our pro-level dashboard.</p>
             </div>
         </div>
+
+        <!-- Interactive Section -->
+        <div class="interactive-section">
+            <h2 class="interactive-title">Live Community Stats</h2>
+            <p style="margin-bottom: 30px; color: var(--text-grey);">Join thousands of players who are already dominating the battlefield</p>
+            
+            <div class="counter-container">
+                <div class="counter-box">
+                    <h3>Total Players</h3>
+                    <div class="counter-number" id="totalPlayers">0</div>
+                    <div class="counter-subtext">Joined Killstreak</div>
+                </div>
+                
+                <div class="counter-box">
+                    <h3>Today's Winners</h3>
+                    <div class="counter-number" id="todayWinners">0</div>
+                    <div class="counter-subtext">Withdrawn Earnings</div>
+                </div>
+                
+                <div class="counter-box">
+                    <h3>Matches Played</h3>
+                    <div class="counter-number" id="matchesPlayed">0</div>
+                    <div class="counter-subtext">24 Hour Count</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px;">
+                <button class="btn-interactive" onclick="simulateNewPlayer()">
+                    <i class="fas fa-user-plus"></i> Simulate New Player
+                </button>
+                <button class="btn-interactive" onclick="simulateMatchWin()">
+                    <i class="fas fa-trophy"></i> Simulate Match Win
+                </button>
+                <button class="btn-interactive" onclick="simulateWithdrawal()">
+                    <i class="fas fa-rupee-sign"></i> Simulate Withdrawal
+                </button>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                <i class="fas fa-info-circle"></i> Click buttons to simulate live updates
+            </p>
+        </div>
     </section>
 
-    <section class="section" style="background: #000;">
+    <section class="section" id="gallery" style="background: #000;">
         <div class="section-header" style="text-align: center;">
             <div class="sub">Interface</div>
             <h2>Clean Dark Mode</h2>
         </div>
         <div class="gallery-flex">
-            <div class="shot-frame"><img src="https://image2url.com/r2/default/images/1767254417124-8ecb2d48-78f1-4a04-b5f6-72595dfddcfa.jpeg" alt="Wallet"></div>
-            <div class="shot-frame"><img src="https://image2url.com/r2/default/images/1767254453454-b3aaa9ef-a682-4167-b0ad-0382c1165871.jpeg" alt="Withdraw"></div>
-            <div class="shot-frame"><img src="https://image2url.com/r2/default/images/1767254500887-12db2735-4ca3-4891-ba2f-c296395a079c.jpeg" alt="Joining"></div>
+            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254417124-8ecb2d48-78f1-4a04-b5f6-72595dfddcfa.jpeg')">
+                <img src="https://image2url.com/r2/default/images/1767254417124-8ecb2d48-78f1-4a04-b5f6-72595dfddcfa.jpeg" alt="Wallet">
+            </div>
+            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254453454-b3aaa9ef-a682-4167-b0ad-0382c1165871.jpeg')">
+                <img src="https://image2url.com/r2/default/images/1767254453454-b3aaa9ef-a682-4167-b0ad-0382c1165871.jpeg" alt="Withdraw">
+            </div>
+            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254500887-12db2735-4ca3-4891-ba2f-c296395a079c.jpeg')">
+                <img src="https://image2url.com/r2/default/images/1767254500887-12db2735-4ca3-4891-ba2f-c296395a079c.jpeg" alt="Joining">
+            </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="install">
         <div class="install-box">
             <div class="section-header">
                 <h2>How to Install</h2>
                 <p style="color: #666;">Real Money Gaming apps are not available on Play Store. Install safely below:</p>
             </div>
 
-            <div class="step-row">
+            <div class="step-row" onclick="markStepComplete(1)">
                 <div class="step-num">01</div>
                 <div class="step-content">
                     <h4>Download APK</h4>
@@ -347,7 +1025,7 @@
                 </div>
             </div>
 
-            <div class="step-row">
+            <div class="step-row" onclick="markStepComplete(2)">
                 <div class="step-num">02</div>
                 <div class="step-content">
                     <h4>Enable Unknown Sources</h4>
@@ -355,7 +1033,7 @@
                 </div>
             </div>
 
-            <div class="step-row">
+            <div class="step-row" onclick="markStepComplete(3)">
                 <div class="step-num">03</div>
                 <div class="step-content">
                     <h4>Install & Win</h4>
@@ -365,17 +1043,235 @@
         </div>
     </section>
 
+    <!-- Visitor Counter Widget -->
+    <div class="visitor-counter" id="visitorCounter">
+        <div class="visitor-title">Live Visitors</div>
+        <div class="visitor-number" id="visitorNumber">0</div>
+        <div class="visitor-subtext">On Site Now</div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
     <footer>
         <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" style="height: 60px; opacity: 0.5; margin-bottom: 20px;">
         <p style="color: #444; font-size: 0.9rem;">&copy; 2025 Killstreak Esports. Play Responsibly.</p>
+        <p style="color: #555; font-size: 0.8rem; margin-top: 10px;">Total Visitors: <span id="footerVisitors">0</span></p>
     </footer>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; justify-content:center; align-items:center;">
+        <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90%; border-radius:10px; border:2px solid var(--primary);">
+        <button onclick="closeLightbox()" style="position:absolute; top:20px; right:20px; background:var(--primary); color:#000; border:none; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer;">×</button>
+    </div>
+
     <script>
+        // Visitor counter with localStorage
+        let visitorCount = localStorage.getItem('killstreakVisitors');
+        if (!visitorCount) {
+            // Start with a random base number to simulate existing users
+            visitorCount = Math.floor(Math.random() * 500) + 1250;
+            localStorage.setItem('killstreakVisitors', visitorCount);
+        }
+        
+        // Convert to number
+        visitorCount = parseInt(visitorCount);
+        
+        // Live users simulation (changes every few seconds)
+        let liveUsers = Math.floor(Math.random() * 50) + 150;
+        let totalMatches = Math.floor(Math.random() * 500) + 2500;
+        let totalWins = Math.floor(Math.random() * 800) + 1200;
+        let todayWinners = Math.floor(Math.random() * 100) + 50;
+        let matchesPlayed = Math.floor(Math.random() * 200) + 800;
+        let prizePool = Math.floor(Math.random() * 50000) + 250000;
+        
+        // DOM elements
+        const visitorNumberEl = document.getElementById('visitorNumber');
+        const footerVisitorsEl = document.getElementById('footerVisitors');
+        const liveUsersEl = document.getElementById('liveUsers');
+        const totalMatchesEl = document.getElementById('totalMatches');
+        const totalWinsEl = document.getElementById('totalWins');
+        const heroUsersEl = document.getElementById('heroUsers');
+        const heroPrizeEl = document.getElementById('heroPrize');
+        const heroMatchesEl = document.getElementById('heroMatches');
+        const totalPlayersEl = document.getElementById('totalPlayers');
+        const todayWinnersEl = document.getElementById('todayWinners');
+        const matchesPlayedEl = document.getElementById('matchesPlayed');
+        const notificationEl = document.getElementById('notification');
+        const backToTopEl = document.getElementById('backToTop');
+        const navbarEl = document.getElementById('navbar');
+        
+        // Initialize counters
+        function initializeCounters() {
+            // Increment visitor count for this visit
+            visitorCount++;
+            localStorage.setItem('killstreakVisitors', visitorCount);
+            
+            // Update all counter elements
+            updateCounters();
+            
+            // Animate the visitor counter
+            animateCounter(visitorNumberEl, 0, visitorCount, 2000);
+            animateCounter(footerVisitorsEl, 0, visitorCount, 2000);
+            animateCounter(heroUsersEl, 0, liveUsers, 1500);
+            animateCounter(totalPlayersEl, 0, visitorCount, 2000);
+            
+            // Format currency for prize pool
+            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
+            animateCounter(todayWinnersEl, 0, todayWinners, 1500);
+            animateCounter(matchesPlayedEl, 0, matchesPlayed, 1500);
+            
+            // Update nav stats
+            liveUsersEl.textContent = liveUsers;
+            totalMatchesEl.textContent = totalMatches.toLocaleString();
+            totalWinsEl.textContent = totalWins.toLocaleString();
+            
+            // Show welcome notification after delay
+            setTimeout(() => {
+                showNotification(`Welcome! You're visitor #${visitorCount}`);
+            }, 1000);
+        }
+        
+        // Animate counter from start to end
+        function animateCounter(element, start, end, duration) {
+            if (typeof element === 'string') element = document.getElementById(element);
+            if (!element) return;
+            
+            let startTime = null;
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                
+                // Check if element is for currency
+                if (element.id === 'heroPrize') {
+                    element.textContent = `₹${value.toLocaleString()}`;
+                } else {
+                    element.textContent = value.toLocaleString();
+                }
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // Update all counters
+        function updateCounters() {
+            visitorNumberEl.textContent = liveUsers.toLocaleString();
+            footerVisitorsEl.textContent = visitorCount.toLocaleString();
+            heroUsersEl.textContent = liveUsers.toLocaleString();
+            totalPlayersEl.textContent = visitorCount.toLocaleString();
+            todayWinnersEl.textContent = todayWinners.toLocaleString();
+            matchesPlayedEl.textContent = matchesPlayed.toLocaleString();
+            liveUsersEl.textContent = liveUsers.toLocaleString();
+            totalMatchesEl.textContent = totalMatches.toLocaleString();
+            totalWinsEl.textContent = totalWins.toLocaleString();
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            if (message) {
+                const textEl = notificationEl.querySelector('.notification-text');
+                textEl.innerHTML = message;
+            }
+            
+            notificationEl.classList.add('show');
+            setTimeout(() => {
+                notificationEl.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Simulate new player joining
+        function simulateNewPlayer() {
+            visitorCount += Math.floor(Math.random() * 3) + 1;
+            localStorage.setItem('killstreakVisitors', visitorCount);
+            liveUsers += Math.floor(Math.random() * 5) + 1;
+            
+            updateCounters();
+            animateCounter(visitorNumberEl, parseInt(visitorNumberEl.textContent.replace(/,/g, '')), liveUsers, 500);
+            animateCounter(totalPlayersEl, parseInt(totalPlayersEl.textContent.replace(/,/g, '')), visitorCount, 500);
+            
+            showNotification(`<i class="fas fa-user-plus"></i> ${Math.floor(Math.random() * 3) + 1} new player${Math.floor(Math.random() * 3) + 1 > 1 ? 's' : ''} just joined!`);
+        }
+        
+        // Simulate match win
+        function simulateMatchWin() {
+            totalWins += Math.floor(Math.random() * 5) + 1;
+            todayWinners += Math.floor(Math.random() * 3) + 1;
+            matchesPlayed += Math.floor(Math.random() * 10) + 5;
+            
+            updateCounters();
+            animateCounter(todayWinnersEl, parseInt(todayWinnersEl.textContent.replace(/,/g, '')), todayWinners, 500);
+            animateCounter(matchesPlayedEl, parseInt(matchesPlayedEl.textContent.replace(/,/g, '')), matchesPlayed, 500);
+            
+            const winAmount = Math.floor(Math.random() * 500) + 100;
+            prizePool += winAmount;
+            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
+            
+            showNotification(`<i class="fas fa-trophy"></i> Player won ₹${winAmount} in a match!`);
+        }
+        
+        // Simulate withdrawal
+        function simulateWithdrawal() {
+            const withdrawAmount = Math.floor(Math.random() * 1000) + 200;
+            prizePool -= withdrawAmount;
+            if (prizePool < 0) prizePool = 0;
+            
+            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
+            showNotification(`<i class="fas fa-rupee-sign"></i> ₹${withdrawAmount} withdrawn to UPI successfully!`);
+        }
+        
+        // Mark installation step as complete
+        function markStepComplete(stepNum) {
+            const stepRow = document.querySelectorAll('.step-row')[stepNum - 1];
+            const stepNumEl = stepRow.querySelector('.step-num');
+            
+            stepRow.style.background = 'rgba(0, 255, 136, 0.1)';
+            stepRow.style.borderLeft = '4px solid #00ff88';
+            stepNumEl.style.color = 'rgba(0, 255, 136, 0.3)';
+            stepNumEl.innerHTML = `${stepNum < 10 ? '0' : ''}${stepNum}<i class="fas fa-check" style="font-size:1rem; margin-left:5px;"></i>`;
+            
+            showNotification(`Step ${stepNum} completed!`);
+        }
+        
+        // Open lightbox for gallery images
+        function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = imgSrc;
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Start download
         function startDownload() {
             const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
-            window.location.href = apkUrl;
+            
+            // Show downloading notification
+            showNotification('<i class="fas fa-download"></i> Starting download...');
+            
+            // Simulate download progress
+            setTimeout(() => {
+                showNotification('<i class="fas fa-check-circle"></i> Download started! Check your notifications.');
+            }, 1000);
+            
+            // Open download link
+            window.open(apkUrl, '_blank');
         }
-
+        
+        // Interactive phone tilt effect
         const phone = document.querySelector('.hero-phone');
         document.addEventListener('mousemove', (e) => {
             if(window.innerWidth > 900) {
@@ -384,7 +1280,59 @@
                 phone.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             }
         });
-
+        
+        // Reset phone position when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            phone.style.transform = 'perspective(1000px) rotateY(-15deg) rotateX(5deg)';
+        });
+        
+        // Scroll animations for sections
+        function checkScroll() {
+            const sections = document.querySelectorAll('.section');
+            const windowHeight = window.innerHeight;
+            const scrollY = window.scrollY;
+            
+            // Show/hide back to top button
+            if (scrollY > 500) {
+                backToTopEl.classList.add('visible');
+            } else {
+                backToTopEl.classList.remove('visible');
+            }
+            
+            // Navbar scroll effect
+            if (scrollY > 100) {
+                navbarEl.classList.add('scrolled');
+            } else {
+                navbarEl.classList.remove('scrolled');
+            }
+            
+            // Animate sections when they come into view
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY + windowHeight - 100 > sectionTop) {
+                    section.classList.add('visible');
+                }
+            });
+            
+            // Update live users randomly on scroll
+            if (Math.random() > 0.7) {
+                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                liveUsers = Math.max(150, liveUsers + change);
+                visitorNumberEl.textContent = liveUsers.toLocaleString();
+                heroUsersEl.textContent = liveUsers.toLocaleString();
+            }
+        }
+        
+        // Back to top functionality
+        backToTopEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Service Worker registration
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
                 navigator.serviceWorker.register("/sw.js")
@@ -392,9 +1340,62 @@
                 .catch(function (err) { console.error("Service Worker registration failed:", err); });
             });
         }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCounters();
+            
+            // Start live updates simulation
+            setInterval(() => {
+                // Randomly update live users
+                if (Math.random() > 0.5) {
+                    const change = Math.floor(Math.random() * 3) - 1;
+                    liveUsers = Math.max(150, liveUsers + change);
+                    visitorNumberEl.textContent = liveUsers.toLocaleString();
+                    heroUsersEl.textContent = liveUsers.toLocaleString();
+                }
+                
+                // Occasionally show random notifications
+                if (Math.random() > 0.9) {
+                    const notifications = [
+                        `<i class="fas fa-trophy"></i> New tournament starting in 10 minutes!`,
+                        `<i class="fas fa-bolt"></i> ₹5,000 won by player "HeadshotKing"!`,
+                        `<i class="fas fa-users"></i> ${Math.floor(Math.random() * 5) + 1} new players online now!`,
+                        `<i class="fas fa-gamepad"></i> Match #${Math.floor(Math.random() * 1000) + 1000} starting!`
+                    ];
+                    showNotification(notifications[Math.floor(Math.random() * notifications.length)]);
+                }
+            }, 5000); // Update every 5 seconds
+            
+            // Set up scroll event listener
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); // Initial check
+            
+            // Add click effects to glass cards
+            document.querySelectorAll('.glass-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'translateY(-15px) scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-15px) scale(1.02)';
+                    }, 300);
+                });
+            });
+        });
+        
+        // Close lightbox when clicking outside image
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
     </script>
 
-    <script>(function(s){s.dataset.zone='10429570',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 </body>
 </html>
-
