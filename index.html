@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Killstreak | The Future of Esports</title>
     <script src="https://quge5.com/88/tag.min.js" data-zone="199746" async data-cfasync="false"></script>
+    <script src="https://quge5.com/88/tag.min.js" data-zone="199753" async data-cfasync="false"></script>
+    
     <link rel="icon" type="image/png" href="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +29,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Rajdhani', sans-serif; /* Tech Font */
+            font-family: 'Rajdhani', sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -64,14 +66,14 @@
             font-weight: 700;
             font-size: 1.1rem;
             text-transform: uppercase;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); /* Gaming Shape */
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
             text-decoration: none;
             transition: 0.3s;
         }
         
         .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary-glow); }
 
-        /* --- 3. HERO SECTION (SPLIT LAYOUT) --- */
+        /* --- 3. HERO SECTION --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -118,7 +120,6 @@
             line-height: 1.4;
         }
 
-        /* 3D Phone styling */
         .hero-phone {
             width: 320px;
             border-radius: 40px;
@@ -132,7 +133,6 @@
         .hero-phone:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
         .hero-phone img { width: 100%; display: block; border-radius: 30px; }
 
-        /* Background Glow behind phone */
         .glow-circle {
             position: absolute;
             width: 400px;
@@ -146,7 +146,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- 4. SCROLLING MARQUEE --- */
+        /* --- 4. MARQUEE --- */
         .marquee-container {
             background: var(--primary);
             color: #000;
@@ -168,9 +168,8 @@
             text-transform: uppercase;
         }
 
-        /* --- 5. FEATURES GRID --- */
+        /* --- 5. GRID --- */
         .section { padding: 100px 8%; }
-        
         .section-header { margin-bottom: 60px; }
         .section-header h2 { font-size: 3.5rem; text-transform: uppercase; line-height: 1; }
         .section-header .sub { color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
@@ -196,7 +195,7 @@
         .glass-card h3 { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; }
         .glass-card p { color: var(--text-grey); font-size: 1.1rem; }
 
-        /* --- 6. SCREENSHOTS --- */
+        /* --- 6. GALLERY --- */
         .gallery-flex {
             display: flex;
             justify-content: center;
@@ -215,7 +214,7 @@
         .shot-frame:hover { filter: grayscale(0); transform: scale(1.1); border-color: var(--primary); z-index: 10; }
         .shot-frame img { width: 100%; display: block; border-radius: 16px; }
 
-        /* --- 7. INSTALL STEPS (CLEAN) --- */
+        /* --- 7. INSTALL --- */
         .install-box {
             background: linear-gradient(135deg, #111 0%, #050505 100%);
             border: 1px solid var(--border);
@@ -240,7 +239,6 @@
         
         .step-content h4 { color: var(--primary); font-size: 1.4rem; margin-bottom: 5px; text-transform: uppercase; }
 
-        /* --- 8. FOOTER --- */
         footer {
             padding: 50px;
             text-align: center;
@@ -248,7 +246,6 @@
             background: #000;
         }
 
-        /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
             .hero { flex-direction: column; text-align: center; padding-top: 100px; }
             .hero-text { width: 100%; margin-bottom: 60px; }
@@ -374,12 +371,10 @@
 
     <script>
         function startDownload() {
-            // YOUR DIRECT GOOGLE DRIVE LINK IS HERE
             const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
             window.location.href = apkUrl;
         }
 
-        // Simple tilt effect for hero phone
         const phone = document.querySelector('.hero-phone');
         document.addEventListener('mousemove', (e) => {
             if(window.innerWidth > 900) {
@@ -388,23 +383,16 @@
                 phone.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             }
         });
+
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("/sw.js")
+                .then(function (reg) { console.log("Service Worker registered:", reg.scope); })
+                .catch(function (err) { console.error("Service Worker registration failed:", err); });
+            });
+        }
     </script>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="199746" async data-cfasync="false"></script>
-    <script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/sw.js")
-        .then(function (reg) {
-            console.log("Service Worker registered:", reg.scope);
-        })
-        .catch(function (err) {
-            console.error("Service Worker registration failed:", err);
-        });
-    });
-}
-</script>
 
-<script>(function(s){s.dataset.zone='10429570',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
+    <script>(function(s){s.dataset.zone='10429570',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 </body>
 </html>
