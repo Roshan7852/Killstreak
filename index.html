@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         /* --- 1. CORE SETTINGS --- */
@@ -126,7 +128,217 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
         }
 
-        /* --- 3. HERO SECTION --- */
+        /* --- 3. HIDDEN ADMIN PANEL --- */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border);
+            z-index: 9999;
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: -10px 0 50px rgba(0,0,0,0.8);
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .admin-close {
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .admin-close:hover {
+            color: var(--primary);
+        }
+
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label-small {
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+        }
+
+        #visitorMap {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .visitor-table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .visitor-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .visitor-table th {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--primary);
+            padding: 10px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+        }
+
+        .visitor-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .visitor-table tr:hover {
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .country-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .email-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .email-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .email-item:last-child {
+            border-bottom: none;
+        }
+
+        .email-address {
+            color: var(--text-white);
+            font-size: 0.9rem;
+        }
+
+        .email-date {
+            color: var(--text-grey);
+            font-size: 0.8rem;
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .admin-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .admin-btn:hover {
+            background: #ffd54f;
+            transform: translateY(-2px);
+        }
+
+        .admin-btn.delete {
+            background: #f44336;
+            color: white;
+        }
+
+        .admin-btn.delete:hover {
+            background: #d32f2f;
+        }
+
+        /* --- 4. HERO SECTION --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -319,7 +531,73 @@
             100% { transform: translate(-40%, -60%) scale(1.2); }
         }
 
-        /* --- 4. MARQUEE --- */
+        /* --- 5. EMAIL CAPTURE FORM --- */
+        .email-capture {
+            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 50px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .email-capture h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .email-capture p {
+            color: var(--text-grey);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+        }
+
+        .email-submit {
+            padding: 15px 30px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .email-submit:hover {
+            background: #ffd54f;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+        }
+
+        /* --- 6. MARQUEE --- */
         .marquee-container {
             background: var(--primary);
             color: #000;
@@ -348,7 +626,7 @@
             gap: 10px;
         }
 
-        /* --- 5. GRID --- */
+        /* --- 7. GRID --- */
         .section { 
             padding: 100px 8%; 
             opacity: 0;
@@ -464,257 +742,6 @@
             line-height: 1.6;
         }
 
-        .interactive-section {
-            margin-top: 80px;
-            padding: 50px;
-            background: linear-gradient(135deg, rgba(255,193,7,0.05) 0%, rgba(255,193,7,0.02) 100%);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        .interactive-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: var(--primary);
-        }
-
-        .counter-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .counter-box {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            padding: 30px;
-            border-radius: 15px;
-            min-width: 250px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .counter-box:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .counter-box h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--text-grey);
-            text-transform: uppercase;
-        }
-
-        .counter-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            line-height: 1;
-        }
-
-        .counter-subtext {
-            font-size: 0.9rem;
-            color: var(--text-grey);
-            margin-top: 10px;
-        }
-
-        .user-avatars {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ffc107, #ff9800);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-weight: bold;
-            font-size: 0.9rem;
-            border: 2px solid var(--primary);
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .user-avatar:nth-child(2) {
-            animation-delay: 0.5s;
-            background: linear-gradient(45deg, #2196F3, #03A9F4);
-        }
-
-        .user-avatar:nth-child(3) {
-            animation-delay: 1s;
-            background: linear-gradient(45deg, #9C27B0, #E91E63);
-        }
-
-        .user-avatar:nth-child(4) {
-            animation-delay: 1.5s;
-            background: linear-gradient(45deg, #4CAF50, #8BC34A);
-        }
-
-        .user-avatar:nth-child(5) {
-            animation-delay: 2s;
-            background: linear-gradient(45deg, #FF5722, #FF9800);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .btn-interactive {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px;
-        }
-
-        .btn-interactive:hover {
-            background: var(--primary);
-            color: #000;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
-        }
-
-        .ad-container {
-            margin: 40px 0;
-            text-align: center;
-            background: var(--bg-panel);
-            padding: 20px;
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-        }
-
-        /* --- 6. GALLERY --- */
-        .gallery-flex {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .shot-frame {
-            width: 250px;
-            border: 4px solid #333;
-            border-radius: 20px;
-            transition: all 0.4s;
-            filter: grayscale(0.6);
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .shot-frame::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8));
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1;
-        }
-
-        .shot-frame:hover::before {
-            opacity: 1;
-        }
-
-        .shot-frame:hover { 
-            filter: grayscale(0); 
-            transform: scale(1.1) rotate(2deg); 
-            border-color: var(--primary);
-            z-index: 10;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-        }
-        
-        .shot-frame img { 
-            width: 100%; 
-            display: block; 
-            border-radius: 16px;
-            transition: transform 0.5s;
-        }
-        
-        .shot-frame:hover img {
-            transform: scale(1.1);
-        }
-
-        /* --- 7. INSTALL --- */
-        .install-box {
-            background: linear-gradient(135deg, #111 0%, #050505 100%);
-            border: 1px solid var(--border);
-            padding: 60px;
-            border-radius: 20px;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .install-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,193,7,0.1) 0%, transparent 70%);
-            z-index: 0;
-        }
-
-        .step-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        
-        .step-row:hover {
-            transform: translateX(10px);
-            background: rgba(255, 193, 7, 0.05);
-        }
-        
-        .step-num {
-            font-size: 3rem;
-            font-weight: 800;
-            color: rgba(255, 193, 7, 0.1);
-            line-height: 1;
-            margin-right: 20px;
-            transition: color 0.3s;
-        }
-        
-        .step-row:hover .step-num {
-            color: rgba(255, 193, 7, 0.3);
-        }
-        
-        .step-content h4 { 
-            color: var(--primary); 
-            font-size: 1.4rem; 
-            margin-bottom: 5px; 
-            text-transform: uppercase; 
-        }
-
         /* --- 8. VISITOR COUNTER --- */
         .visitor-counter {
             position: fixed;
@@ -759,41 +786,7 @@
             margin-top: 5px;
         }
 
-        /* --- 9. NOTIFICATION --- */
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border-left: 4px solid var(--primary);
-            padding: 15px 20px;
-            border-radius: 5px;
-            z-index: 1001;
-            transform: translateX(150%);
-            transition: transform 0.5s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            max-width: 300px;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .notification-icon {
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        .notification-text {
-            font-size: 0.9rem;
-        }
-
+        /* --- 9. FOOTER --- */
         footer {
             padding: 50px;
             text-align: center;
@@ -868,18 +861,13 @@
                 margin: 0 auto 20px; 
             }
             
-            .counter-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .counter-box {
+            .admin-panel {
                 width: 100%;
-                max-width: 300px;
+                right: -100%;
             }
             
-            .nav-stats {
-                font-size: 0.9rem;
+            .email-form {
+                flex-direction: column;
             }
         }
 
@@ -891,6 +879,81 @@
 </head>
 <body>
 
+    <!-- Hidden Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2 class="admin-title"><i class="fas fa-user-secret"></i> Admin Dashboard</h2>
+            <button class="admin-close" id="closeAdmin"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <!-- Visitor Stats -->
+        <div class="admin-section">
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Visitor Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="adminTotalVisitors">0</div>
+                    <div class="stat-label-small">Total Visitors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="adminLiveVisitors">0</div>
+                    <div class="stat-label-small">Live Now</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="adminEmails">0</div>
+                    <div class="stat-label-small">Emails Captured</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="adminCountries">0</div>
+                    <div class="stat-label-small">Countries</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Visitor Map -->
+        <div class="admin-section">
+            <h3 class="section-title"><i class="fas fa-map-marked-alt"></i> Visitor Locations</h3>
+            <div id="visitorMap"></div>
+        </div>
+        
+        <!-- Recent Visitors Table -->
+        <div class="admin-section">
+            <h3 class="section-title"><i class="fas fa-users"></i> Recent Visitors</h3>
+            <div class="visitor-table-container">
+                <table class="visitor-table">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Location</th>
+                            <th>Device</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitorTableBody">
+                        <!-- Visitor data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Captured Emails -->
+        <div class="admin-section">
+            <h3 class="section-title"><i class="fas fa-envelope"></i> Captured Emails</h3>
+            <div class="email-list" id="emailList">
+                <!-- Emails will be inserted here -->
+            </div>
+        </div>
+        
+        <!-- Admin Controls -->
+        <div class="admin-section">
+            <h3 class="section-title"><i class="fas fa-cog"></i> Controls</h3>
+            <div class="admin-controls">
+                <button class="admin-btn" id="exportData"><i class="fas fa-download"></i> Export Data</button>
+                <button class="admin-btn delete" id="clearData"><i class="fas fa-trash"></i> Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
     <nav id="navbar">
         <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" class="nav-logo">
         
@@ -904,13 +967,6 @@
         
         <button onclick="startDownload()" class="btn-download">Get App</button>
     </nav>
-
-    <div class="notification" id="notification">
-        <div class="notification-content">
-            <div class="notification-icon"><i class="fas fa-user-plus"></i></div>
-            <div class="notification-text">New visitor just joined!</div>
-        </div>
-    </div>
 
     <header class="hero">
         <div class="hero-text">
@@ -948,6 +1004,17 @@
         </div>
     </header>
 
+    <!-- Email Capture Section -->
+    <div class="email-capture">
+        <h3>Get Early Access</h3>
+        <p>Enter your email to get notified about exclusive tournaments and early access to new features.</p>
+        <form class="email-form" id="emailForm">
+            <input type="email" class="email-input" placeholder="Enter your email address" required id="userEmail">
+            <button type="submit" class="email-submit">Notify Me</button>
+        </form>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 15px;">We respect your privacy. No spam.</p>
+    </div>
+
     <div class="marquee-container">
         <div class="marquee-content">
             <div class="marquee-item"><i class="fas fa-trophy"></i> WINNER WINNER CHICKEN DINNER</div>
@@ -965,69 +1032,21 @@
         </div>
         
         <div class="grid">
-            <div class="glass-card" onclick="showNotification('⚡ Instant Payouts feature selected!')">
+            <div class="glass-card">
                 <div class="card-icon">⚡</div>
                 <h3>Instant Payouts</h3>
                 <p>No waiting for 24 hours. Withdraw your kill earnings directly to UPI immediately after the match ends.</p>
             </div>
-            <div class="glass-card" onclick="showNotification('🛡️ Anti-Cheat system explained!')">
+            <div class="glass-card">
                 <div class="card-icon">🛡️</div>
                 <h3>Anti-Cheat</h3>
                 <p>We take fair play seriously. Our manual spectating and report system ensures a hacker-free lobby.</p>
             </div>
-            <div class="glass-card" onclick="showNotification('📊 Detailed Stats feature selected!')">
+            <div class="glass-card">
                 <div class="card-icon">📊</div>
                 <h3>Detailed Stats</h3>
                 <p>Track your Kill/Death ratio, total earnings, and match history with our pro-level dashboard.</p>
             </div>
-        </div>
-
-        <!-- Interactive User Counter Section -->
-        <div class="interactive-section">
-            <h2 class="interactive-title">Live Visitor Statistics</h2>
-            <p style="margin-bottom: 30px; color: var(--text-grey);">See how many gamers are checking out Killstreak right now</p>
-            
-            <div class="counter-container">
-                <div class="counter-box">
-                    <h3>Total Visitors</h3>
-                    <div class="counter-number" id="totalCounter">0</div>
-                    <div class="counter-subtext">All-time website visitors</div>
-                    
-                    <div class="user-avatars">
-                        <div class="user-avatar">A</div>
-                        <div class="user-avatar">B</div>
-                        <div class="user-avatar">C</div>
-                        <div class="user-avatar">D</div>
-                        <div class="user-avatar">+</div>
-                    </div>
-                </div>
-                
-                <div class="counter-box">
-                    <h3>Live Now</h3>
-                    <div class="counter-number" id="liveCounter">0</div>
-                    <div class="counter-subtext">Currently browsing this site</div>
-                    
-                    <div style="margin-top: 20px;">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <div style="width: 12px; height: 12px; background: #00ff88; border-radius: 50%; animation: blink 1.5s infinite;"></div>
-                            <span style="font-size: 0.9rem; color: #00ff88;">Live Tracking Active</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="margin-top: 40px;">
-                <button class="btn-interactive" onclick="simulateNewVisitor()">
-                    <i class="fas fa-user-plus"></i> Simulate New Visitor
-                </button>
-                <button class="btn-interactive" onclick="resetCounter()">
-                    <i class="fas fa-redo"></i> Reset Counter
-                </button>
-            </div>
-            
-            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-                <i class="fas fa-info-circle"></i> Visitor count updates in real-time. Click buttons to simulate activity.
-            </p>
         </div>
     </section>
 
@@ -1037,13 +1056,13 @@
             <h2>Clean Dark Mode</h2>
         </div>
         <div class="gallery-flex">
-            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254417124-8ecb2d48-78f1-4a04-b5f6-72595dfddcfa.jpeg')">
+            <div class="shot-frame">
                 <img src="https://image2url.com/r2/default/images/1767254417124-8ecb2d48-78f1-4a04-b5f6-72595dfddcfa.jpeg" alt="Wallet">
             </div>
-            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254453454-b3aaa9ef-a682-4167-b0ad-0382c1165871.jpeg')">
+            <div class="shot-frame">
                 <img src="https://image2url.com/r2/default/images/1767254453454-b3aaa9ef-a682-4167-b0ad-0382c1165871.jpeg" alt="Withdraw">
             </div>
-            <div class="shot-frame" onclick="openLightbox('https://image2url.com/r2/default/images/1767254500887-12db2735-4ca3-4891-ba2f-c296395a079c.jpeg')">
+            <div class="shot-frame">
                 <img src="https://image2url.com/r2/default/images/1767254500887-12db2735-4ca3-4891-ba2f-c296395a079c.jpeg" alt="Joining">
             </div>
         </div>
@@ -1056,7 +1075,7 @@
                 <p style="color: #666;">Real Money Gaming apps are not available on Play Store. Install safely below:</p>
             </div>
 
-            <div class="step-row" onclick="markStepComplete(1)">
+            <div class="step-row">
                 <div class="step-num">01</div>
                 <div class="step-content">
                     <h4>Download APK</h4>
@@ -1064,7 +1083,7 @@
                 </div>
             </div>
 
-            <div class="step-row" onclick="markStepComplete(2)">
+            <div class="step-row">
                 <div class="step-num">02</div>
                 <div class="step-content">
                     <h4>Enable Unknown Sources</h4>
@@ -1072,7 +1091,7 @@
                 </div>
             </div>
 
-            <div class="step-row" onclick="markStepComplete(3)">
+            <div class="step-row">
                 <div class="step-num">03</div>
                 <div class="step-content">
                     <h4>Install & Win</h4>
@@ -1100,211 +1119,358 @@
         <p style="color: #555; font-size: 0.8rem; margin-top: 10px;">Total Visitors: <span id="footerVisitors">0</span></p>
     </footer>
 
-    <!-- Lightbox Modal -->
-    <div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; justify-content:center; align-items:center;">
-        <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90%; border-radius:10px; border:2px solid var(--primary);">
-        <button onclick="closeLightbox()" style="position:absolute; top:20px; right:20px; background:var(--primary); color:#000; border:none; width:40px; height:40px; border-radius:50%; font-size:1.5rem; cursor:pointer;">×</button>
-    </div>
-
     <script>
-        // Visitor counter with localStorage
-        let totalVisitors = localStorage.getItem('killstreakTotalVisitors');
-        if (!totalVisitors) {
-            // Start with a random base number to simulate existing visitors
-            totalVisitors = Math.floor(Math.random() * 500) + 1250;
-            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
-        }
+        // ========== ADMIN PANEL FUNCTIONALITY ==========
         
-        // Convert to number
-        totalVisitors = parseInt(totalVisitors);
-        
-        // Active users simulation (changes every few seconds)
-        let activeUsers = Math.floor(Math.random() * 30) + 15;
-        
-        // Session tracking for current visitor
-        let currentSession = localStorage.getItem('killstreakCurrentSession');
-        if (!currentSession) {
-            // This is a new session
-            currentSession = Date.now();
-            localStorage.setItem('killstreakCurrentSession', currentSession);
-            // Increment total visitors for this new session
-            totalVisitors++;
-            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
-        }
-        
-        // DOM elements
-        const visitorNumberEl = document.getElementById('visitorNumber');
-        const footerVisitorsEl = document.getElementById('footerVisitors');
-        const liveUsersEl = document.getElementById('liveUsers');
-        const totalVisitorsEl = document.getElementById('totalVisitors');
-        const activeNowEl = document.getElementById('activeNow');
-        const totalCounterEl = document.getElementById('totalCounter');
-        const liveCounterEl = document.getElementById('liveCounter');
-        const notificationEl = document.getElementById('notification');
-        const backToTopEl = document.getElementById('backToTop');
-        const navbarEl = document.getElementById('navbar');
-        
-        // Initialize counters
-        function initializeCounters() {
-            // Update all counter elements
-            updateCounters();
-            
-            // Animate the counters
-            animateCounter(visitorNumberEl, 0, activeUsers, 1500);
-            animateCounter(footerVisitorsEl, 0, totalVisitors, 2000);
-            animateCounter(totalVisitorsEl, 0, totalVisitors, 2000);
-            animateCounter(activeNowEl, 0, activeUsers, 1500);
-            animateCounter(totalCounterEl, 0, totalVisitors, 2000);
-            animateCounter(liveCounterEl, 0, activeUsers, 1500);
-            
-            // Update nav stats
-            liveUsersEl.textContent = activeUsers;
-            
-            // Show welcome notification after delay
-            setTimeout(() => {
-                showNotification(`Welcome! You're visitor #${totalVisitors}`);
-            }, 1000);
-            
-            // Start live updates
-            startLiveUpdates();
-        }
-        
-        // Animate counter from start to end
-        function animateCounter(element, start, end, duration) {
-            if (typeof element === 'string') element = document.getElementById(element);
-            if (!element) return;
-            
-            let startTime = null;
-            const step = (timestamp) => {
-                if (!startTime) startTime = timestamp;
-                const progress = Math.min((timestamp - startTime) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value.toLocaleString();
-                
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
+        // Visitor data structure
+        let visitorData = {
+            totalVisitors: 0,
+            visitors: [],
+            emails: [],
+            countries: new Set(),
+            liveVisitors: 0
+        };
+
+        // Initialize data from localStorage
+        function initializeData() {
+            const savedData = localStorage.getItem('killstreakAdminData');
+            if (savedData) {
+                visitorData = JSON.parse(savedData);
+                // Convert countries Set from array
+                if (Array.isArray(visitorData.countries)) {
+                    visitorData.countries = new Set(visitorData.countries);
+                } else {
+                    visitorData.countries = new Set();
                 }
+            } else {
+                // Set initial values
+                visitorData.totalVisitors = Math.floor(Math.random() * 500) + 1250;
+                visitorData.liveVisitors = Math.floor(Math.random() * 30) + 15;
+                saveData();
+            }
+            
+            updatePublicCounters();
+            updateAdminPanel();
+            initializeMap();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            // Convert Set to array for storage
+            const dataToSave = {
+                ...visitorData,
+                countries: Array.from(visitorData.countries)
             };
-            window.requestAnimationFrame(step);
+            localStorage.setItem('killstreakAdminData', JSON.stringify(dataToSave));
         }
-        
-        // Update all counters
-        function updateCounters() {
-            visitorNumberEl.textContent = activeUsers.toLocaleString();
-            footerVisitorsEl.textContent = totalVisitors.toLocaleString();
-            liveUsersEl.textContent = activeUsers.toLocaleString();
-            totalVisitorsEl.textContent = totalVisitors.toLocaleString();
-            activeNowEl.textContent = activeUsers.toLocaleString();
-            totalCounterEl.textContent = totalVisitors.toLocaleString();
-            liveCounterEl.textContent = activeUsers.toLocaleString();
+
+        // Track new visitor
+        async function trackVisitor() {
+            try {
+                // Get visitor IP and location
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+                
+                // Get location data
+                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const locationData = await locationResponse.json();
+                
+                // Create visitor object
+                const visitor = {
+                    id: Date.now(),
+                    ip: ip,
+                    city: locationData.city || 'Unknown',
+                    region: locationData.region || 'Unknown',
+                    country: locationData.country_name || 'Unknown',
+                    countryCode: locationData.country_code || 'XX',
+                    lat: locationData.latitude || 0,
+                    lon: locationData.longitude || 0,
+                    isp: locationData.org || 'Unknown ISP',
+                    device: getDeviceInfo(),
+                    browser: getBrowserInfo(),
+                    timestamp: new Date().toISOString(),
+                    time: new Date().toLocaleTimeString(),
+                    date: new Date().toLocaleDateString()
+                };
+                
+                // Add to data
+                visitorData.totalVisitors++;
+                visitorData.visitors.unshift(visitor); // Add to beginning
+                visitorData.countries.add(visitor.country);
+                
+                // Keep only last 100 visitors
+                if (visitorData.visitors.length > 100) {
+                    visitorData.visitors = visitorData.visitors.slice(0, 100);
+                }
+                
+                // Simulate live visitors
+                visitorData.liveVisitors = Math.floor(Math.random() * 20) + 10;
+                
+                saveData();
+                updatePublicCounters();
+                updateAdminPanel();
+                addMapMarker(visitor);
+                
+                console.log('Visitor tracked:', visitor);
+                
+            } catch (error) {
+                console.error('Error tracking visitor:', error);
+                // Fallback data
+                const fallbackVisitor = {
+                    id: Date.now(),
+                    ip: 'Unable to fetch',
+                    city: 'Unknown',
+                    region: 'Unknown',
+                    country: 'Unknown',
+                    countryCode: 'XX',
+                    lat: 0,
+                    lon: 0,
+                    isp: 'Unknown',
+                    device: getDeviceInfo(),
+                    browser: getBrowserInfo(),
+                    timestamp: new Date().toISOString(),
+                    time: new Date().toLocaleTimeString(),
+                    date: new Date().toLocaleDateString()
+                };
+                
+                visitorData.totalVisitors++;
+                visitorData.visitors.unshift(fallbackVisitor);
+                saveData();
+                updatePublicCounters();
+                updateAdminPanel();
+            }
         }
-        
+
+        // Get device information
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            if (/mobile/i.test(ua)) return 'Mobile';
+            if (/tablet/i.test(ua)) return 'Tablet';
+            return 'Desktop';
+        }
+
+        // Get browser information
+        function getBrowserInfo() {
+            const ua = navigator.userAgent;
+            if (/chrome/i.test(ua)) return 'Chrome';
+            if (/firefox/i.test(ua)) return 'Firefox';
+            if (/safari/i.test(ua)) return 'Safari';
+            if (/edge/i.test(ua)) return 'Edge';
+            return 'Other';
+        }
+
+        // Capture email from form
+        function captureEmail(email) {
+            const emailData = {
+                email: email,
+                timestamp: new Date().toISOString(),
+                time: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString(),
+                source: 'Website form'
+            };
+            
+            visitorData.emails.unshift(emailData);
+            
+            // Keep only last 50 emails
+            if (visitorData.emails.length > 50) {
+                visitorData.emails = visitorData.emails.slice(0, 50);
+            }
+            
+            saveData();
+            updateAdminPanel();
+            
+            // Show success message
+            showNotification(`Email captured: ${email}`);
+        }
+
+        // Update public counters
+        function updatePublicCounters() {
+            document.getElementById('totalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
+            document.getElementById('activeNow').textContent = visitorData.liveVisitors.toLocaleString();
+            document.getElementById('liveUsers').textContent = visitorData.liveVisitors.toLocaleString();
+            document.getElementById('visitorNumber').textContent = visitorData.liveVisitors.toLocaleString();
+            document.getElementById('footerVisitors').textContent = visitorData.totalVisitors.toLocaleString();
+        }
+
+        // Update admin panel
+        function updateAdminPanel() {
+            // Update stats
+            document.getElementById('adminTotalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
+            document.getElementById('adminLiveVisitors').textContent = visitorData.liveVisitors.toLocaleString();
+            document.getElementById('adminEmails').textContent = visitorData.emails.length;
+            document.getElementById('adminCountries').textContent = visitorData.countries.size;
+            
+            // Update visitor table
+            const tableBody = document.getElementById('visitorTableBody');
+            tableBody.innerHTML = '';
+            
+            visitorData.visitors.slice(0, 10).forEach(visitor => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${visitor.ip}</td>
+                    <td>
+                        ${visitor.countryCode !== 'XX' ? 
+                            `<img src="https://flagcdn.com/w20/${visitor.countryCode.toLowerCase()}.png" class="country-flag" alt="${visitor.country}">` : 
+                            ''}
+                        ${visitor.city}, ${visitor.country}
+                    </td>
+                    <td>${visitor.device}</td>
+                    <td>${visitor.time}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Update email list
+            const emailList = document.getElementById('emailList');
+            emailList.innerHTML = '';
+            
+            visitorData.emails.slice(0, 10).forEach(emailData => {
+                const emailItem = document.createElement('div');
+                emailItem.className = 'email-item';
+                emailItem.innerHTML = `
+                    <span class="email-address">${emailData.email}</span>
+                    <span class="email-date">${emailData.date}</span>
+                `;
+                emailList.appendChild(emailItem);
+            });
+        }
+
+        // Initialize map
+        let map;
+        let markers = [];
+
+        function initializeMap() {
+            map = L.map('visitorMap').setView([20, 0], 2);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+            
+            // Add existing visitor markers
+            visitorData.visitors.forEach(visitor => {
+                if (visitor.lat && visitor.lon && visitor.lat !== 0 && visitor.lon !== 0) {
+                    addMapMarker(visitor);
+                }
+            });
+        }
+
+        // Add marker to map
+        function addMapMarker(visitor) {
+            if (!map || !visitor.lat || !visitor.lon || visitor.lat === 0 || visitor.lon === 0) return;
+            
+            const marker = L.marker([visitor.lat, visitor.lon]).addTo(map);
+            marker.bindPopup(`
+                <strong>${visitor.city}, ${visitor.country}</strong><br>
+                IP: ${visitor.ip}<br>
+                Device: ${visitor.device}<br>
+                Time: ${visitor.time}
+            `);
+            
+            markers.push(marker);
+            
+            // Keep only last 50 markers
+            if (markers.length > 50) {
+                map.removeLayer(markers[0]);
+                markers.shift();
+            }
+        }
+
+        // Admin panel controls
+        function exportData() {
+            const dataStr = JSON.stringify(visitorData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `killstreak-visitors-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Data exported successfully!');
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear ALL visitor data? This cannot be undone.')) {
+                visitorData = {
+                    totalVisitors: 0,
+                    visitors: [],
+                    emails: [],
+                    countries: new Set(),
+                    liveVisitors: 0
+                };
+                
+                // Clear markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                
+                saveData();
+                updatePublicCounters();
+                updateAdminPanel();
+                
+                showNotification('All data cleared!');
+            }
+        }
+
         // Show notification
         function showNotification(message) {
-            if (message) {
-                const textEl = notificationEl.querySelector('.notification-text');
-                textEl.innerHTML = message;
-            }
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="notification-text">${message}</div>
+                </div>
+            `;
             
-            notificationEl.classList.add('show');
+            document.body.appendChild(notification);
+            
+            // Show and hide
+            setTimeout(() => notification.classList.add('show'), 10);
             setTimeout(() => {
-                notificationEl.classList.remove('show');
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
             }, 3000);
         }
-        
-        // Simulate new visitor
-        function simulateNewVisitor() {
-            totalVisitors += 1;
-            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
-            activeUsers += Math.floor(Math.random() * 2) + 1;
+
+        // ========== ADMIN PANEL ACCESS ==========
+        let secretCode = '';
+        const adminCode = 'admin123'; // Secret code to open admin panel
+
+        function checkSecretCode(key) {
+            secretCode += key.toLowerCase();
+            if (secretCode.length > adminCode.length) {
+                secretCode = secretCode.substring(1);
+            }
             
-            updateCounters();
-            animateCounter(visitorNumberEl, parseInt(visitorNumberEl.textContent.replace(/,/g, '')), activeUsers, 500);
-            animateCounter(totalCounterEl, parseInt(totalCounterEl.textContent.replace(/,/g, '')), totalVisitors, 500);
-            
-            showNotification(`<i class="fas fa-user-plus"></i> New visitor just joined the site!`);
-        }
-        
-        // Reset counter (for testing)
-        function resetCounter() {
-            if (confirm("Reset visitor counter to zero?")) {
-                totalVisitors = 0;
-                activeUsers = 1;
-                localStorage.setItem('killstreakTotalVisitors', totalVisitors);
-                updateCounters();
-                showNotification(`<i class="fas fa-redo"></i> Visitor counter has been reset!`);
+            if (secretCode === adminCode) {
+                openAdminPanel();
+                secretCode = ''; // Reset after opening
             }
         }
-        
-        // Start live updates simulation
-        function startLiveUpdates() {
-            // Update active users randomly
-            setInterval(() => {
-                // Randomly change active users (simulate people coming and going)
-                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
-                activeUsers = Math.max(1, activeUsers + change);
-                
-                // Update all active user counters
-                visitorNumberEl.textContent = activeUsers.toLocaleString();
-                liveUsersEl.textContent = activeUsers.toLocaleString();
-                activeNowEl.textContent = activeUsers.toLocaleString();
-                liveCounterEl.textContent = activeUsers.toLocaleString();
-                
-                // Occasionally show random notifications about visitors
-                if (Math.random() > 0.9) {
-                    const notifications = [
-                        `<i class="fas fa-users"></i> ${Math.floor(Math.random() * 3) + 1} new visitors just arrived!`,
-                        `<i class="fas fa-eye"></i> ${activeUsers} people viewing this site right now!`,
-                        `<i class="fas fa-globe"></i> Visitor from new location detected!`,
-                        `<i class="fas fa-chart-line"></i> Website traffic is increasing!`
-                    ];
-                    showNotification(notifications[Math.floor(Math.random() * notifications.length)]);
-                }
-            }, 5000); // Update every 5 seconds
+
+        function openAdminPanel() {
+            document.getElementById('adminPanel').classList.add('active');
+            updateAdminPanel();
         }
-        
-        // Mark installation step as complete
-        function markStepComplete(stepNum) {
-            const stepRow = document.querySelectorAll('.step-row')[stepNum - 1];
-            const stepNumEl = stepRow.querySelector('.step-num');
-            
-            stepRow.style.background = 'rgba(0, 255, 136, 0.1)';
-            stepRow.style.borderLeft = '4px solid #00ff88';
-            stepNumEl.style.color = 'rgba(0, 255, 136, 0.3)';
-            stepNumEl.innerHTML = `${stepNum < 10 ? '0' : ''}${stepNum}<i class="fas fa-check" style="font-size:1rem; margin-left:5px;"></i>`;
-            
-            showNotification(`Step ${stepNum} completed!`);
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('active');
         }
-        
-        // Open lightbox for gallery images
-        function openLightbox(imgSrc) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            
-            lightboxImg.src = imgSrc;
-            lightbox.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Close lightbox
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+
+        // ========== MAIN WEBSITE FUNCTIONALITY ==========
         
         // Start download
         function startDownload() {
             const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
-            
-            // Show downloading notification
-            showNotification('<i class="fas fa-download"></i> Starting download...');
-            
-            // Open download link
             window.open(apkUrl, '_blank');
+            showNotification('Starting download...');
         }
-        
-        // Interactive phone tilt effect
+
+        // Phone tilt effect
         const phone = document.querySelector('.hero-phone');
         document.addEventListener('mousemove', (e) => {
             if(window.innerWidth > 900) {
@@ -1314,18 +1480,14 @@
             }
         });
         
-        // Reset phone position when mouse leaves window
-        document.addEventListener('mouseleave', () => {
-            phone.style.transform = 'perspective(1000px) rotateY(-15deg) rotateX(5deg)';
-        });
-        
-        // Scroll animations for sections
+        // Scroll animations
         function checkScroll() {
             const sections = document.querySelectorAll('.section');
             const windowHeight = window.innerHeight;
             const scrollY = window.scrollY;
             
-            // Show/hide back to top button
+            // Back to top button
+            const backToTopEl = document.getElementById('backToTop');
             if (scrollY > 500) {
                 backToTopEl.classList.add('visible');
             } else {
@@ -1333,13 +1495,14 @@
             }
             
             // Navbar scroll effect
+            const navbarEl = document.getElementById('navbar');
             if (scrollY > 100) {
                 navbarEl.classList.add('scrolled');
             } else {
                 navbarEl.classList.remove('scrolled');
             }
             
-            // Animate sections when they come into view
+            // Animate sections
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 if (scrollY + windowHeight - 100 > sectionTop) {
@@ -1347,58 +1510,59 @@
                 }
             });
         }
-        
-        // Back to top functionality
-        backToTopEl.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Service Worker registration
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", function () {
-                navigator.serviceWorker.register("/sw.js")
-                .then(function (reg) { console.log("Service Worker registered:", reg.scope); })
-                .catch(function (err) { console.error("Service Worker registration failed:", err); });
-            });
-        }
-        
-        // Initialize everything when page loads
+
+        // ========== INITIALIZATION ==========
         document.addEventListener('DOMContentLoaded', () => {
-            initializeCounters();
+            // Initialize data and tracking
+            initializeData();
+            trackVisitor(); // Track current visitor
             
-            // Set up scroll event listener
-            window.addEventListener('scroll', checkScroll);
-            checkScroll(); // Initial check
-            
-            // Add click effects to glass cards
-            document.querySelectorAll('.glass-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    this.style.transform = 'translateY(-15px) scale(1.02)';
-                    setTimeout(() => {
-                        this.style.transform = 'translateY(-15px) scale(1.02)';
-                    }, 300);
-                });
+            // Set up secret code listener
+            document.addEventListener('keydown', (e) => {
+                if (!document.getElementById('adminPanel').classList.contains('active')) {
+                    checkSecretCode(e.key);
+                }
             });
-        });
-        
-        // Close lightbox when clicking outside image
-        document.getElementById('lightbox').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLightbox();
-            }
-        });
-        
-        // Close lightbox with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
+            
+            // Admin panel event listeners
+            document.getElementById('closeAdmin').addEventListener('click', closeAdminPanel);
+            document.getElementById('exportData').addEventListener('click', exportData);
+            document.getElementById('clearData').addEventListener('click', clearData);
+            
+            // Email form submission
+            document.getElementById('emailForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('userEmail').value;
+                if (email && email.includes('@')) {
+                    captureEmail(email);
+                    document.getElementById('userEmail').value = '';
+                    showNotification('Thank you! We\'ll notify you about updates.');
+                }
+            });
+            
+            // Scroll event listener
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+            
+            // Back to top
+            document.getElementById('backToTop').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Simulate live visitor updates
+            setInterval(() => {
+                // Randomly update live visitors
+                const change = Math.floor(Math.random() * 3) - 1;
+                visitorData.liveVisitors = Math.max(5, visitorData.liveVisitors + change);
+                updatePublicCounters();
+                
+                // Update admin panel if open
+                if (document.getElementById('adminPanel').classList.contains('active')) {
+                    updateAdminPanel();
+                }
+            }, 10000); // Every 10 seconds
         });
     </script>
-
 </body>
 </html>
