@@ -12,8 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         /* --- 1. CORE SETTINGS --- */
@@ -63,7 +61,6 @@
         nav.scrolled {
             padding: 15px 5%;
             background: rgba(9, 9, 9, 0.98);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
         .nav-logo { 
@@ -119,30 +116,22 @@
         .btn-download:hover { 
             transform: scale(1.05); 
             box-shadow: 0 0 25px var(--primary-glow);
-            animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
-        }
-
-        /* --- 3. HIDDEN ADMIN PANEL --- */
+        /* --- 3. HIDDEN ADMIN PANEL (SIMPLIFIED) --- */
         .admin-panel {
             position: fixed;
             top: 0;
-            right: -500px;
-            width: 500px;
+            right: -400px;
+            width: 400px;
             height: 100vh;
             background: rgba(0, 0, 0, 0.98);
             backdrop-filter: blur(20px);
             border-left: 1px solid var(--border);
-            z-index: 9999;
-            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1001;
+            transition: right 0.4s ease;
             overflow-y: auto;
             padding: 20px;
-            box-shadow: -10px 0 50px rgba(0,0,0,0.8);
         }
 
         .admin-panel.active {
@@ -153,14 +142,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid var(--border);
         }
 
         .admin-title {
             color: var(--primary);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -171,171 +160,101 @@
             color: var(--text-white);
             font-size: 1.5rem;
             cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .admin-close:hover {
-            color: var(--primary);
         }
 
         .admin-section {
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
 
         .section-title {
             color: var(--primary);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .stat-card {
             background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             border: 1px solid var(--border);
             text-align: center;
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 5px;
         }
 
-        .stat-label-small {
-            font-size: 0.8rem;
-            color: var(--text-grey);
-            text-transform: uppercase;
-        }
-
-        #visitorMap {
-            width: 100%;
-            height: 300px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
         .visitor-table-container {
-            max-height: 300px;
+            max-height: 200px;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .visitor-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.85rem;
         }
 
         .visitor-table th {
             background: rgba(255, 193, 7, 0.1);
             color: var(--primary);
-            padding: 10px;
+            padding: 8px;
             text-align: left;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            border-bottom: 2px solid var(--border);
             position: sticky;
             top: 0;
         }
 
         .visitor-table td {
-            padding: 12px 10px;
+            padding: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
-        }
-
-        .visitor-table tr:hover {
-            background: rgba(255, 193, 7, 0.05);
-        }
-
-        .country-flag {
-            width: 20px;
-            height: 15px;
-            object-fit: cover;
-            border-radius: 2px;
-            margin-right: 8px;
-            vertical-align: middle;
         }
 
         .email-list {
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 6px;
+            padding: 10px;
         }
 
         .email-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .email-item:last-child {
-            border-bottom: none;
-        }
-
-        .email-address {
-            color: var(--text-white);
             font-size: 0.9rem;
-        }
-
-        .email-date {
-            color: var(--text-grey);
-            font-size: 0.8rem;
         }
 
         .admin-controls {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .admin-btn {
-            padding: 10px 20px;
+            padding: 8px 15px;
             background: var(--primary);
             color: #000;
             border: none;
             border-radius: 5px;
             font-weight: 700;
-            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s;
             flex: 1;
-        }
-
-        .admin-btn:hover {
-            background: #ffd54f;
-            transform: translateY(-2px);
-        }
-
-        .admin-btn.delete {
-            background: #f44336;
-            color: white;
-        }
-
-        .admin-btn.delete:hover {
-            background: #d32f2f;
         }
 
         /* --- 4. HERO SECTION --- */
@@ -351,7 +270,6 @@
         .hero-text { 
             width: 50%; 
             z-index: 2; 
-            animation: fadeInUp 1s ease-out;
         }
         
         .hero-visual { 
@@ -359,29 +277,6 @@
             position: relative; 
             display: flex; 
             justify-content: center;
-            animation: fadeInRight 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .status-badge {
@@ -397,12 +292,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border-radius: 20px;
-            animation: pulseOnline 2s infinite;
-        }
-
-        @keyframes pulseOnline {
-            0%, 100% { box-shadow: 0 0 5px #00ff88; }
-            50% { box-shadow: 0 0 15px #00ff88; }
         }
 
         .status-dot { 
@@ -411,33 +300,24 @@
             background: #00ff88; 
             border-radius: 50%; 
             margin-right: 10px; 
-            box-shadow: 0 0 10px #00ff88;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 4.5rem;
             line-height: 0.9;
             font-weight: 800;
             text-transform: uppercase;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .hero h1 span { 
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-grey);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             max-width: 90%;
             line-height: 1.4;
         }
@@ -445,7 +325,7 @@
         .hero-stats {
             display: flex;
             gap: 30px;
-            margin: 30px 0;
+            margin: 25px 0;
         }
 
         .hero-stat {
@@ -453,7 +333,7 @@
         }
 
         .hero-stat-number {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: var(--primary);
             line-height: 1;
@@ -467,49 +347,23 @@
         }
 
         .hero-phone {
-            width: 320px;
-            border-radius: 40px;
-            border: 10px solid #1a1a1a;
-            box-shadow: 0 0 60px rgba(255, 193, 7, 0.2);
-            transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+            width: 300px;
+            border-radius: 35px;
+            border: 8px solid #1a1a1a;
+            box-shadow: 0 0 40px rgba(255, 193, 7, 0.2);
+            transform: perspective(1000px) rotateY(-10deg);
             transition: transform 0.5s ease;
             background: #000;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-phone::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, #ffc107, #ff9800, #ff5722, #ffc107);
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0;
-            transition: opacity 0.5s;
         }
 
         .hero-phone:hover { 
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-            box-shadow: 0 0 80px rgba(255, 193, 7, 0.4);
-        }
-        
-        .hero-phone:hover::before {
-            opacity: 0.3;
+            transform: perspective(1000px) rotateY(0deg);
         }
         
         .hero-phone img { 
             width: 100%; 
             display: block; 
-            border-radius: 30px;
-            transition: transform 0.5s;
-        }
-        
-        .hero-phone:hover img {
-            transform: scale(1.05);
+            border-radius: 27px;
         }
 
         .glow-circle {
@@ -518,41 +372,29 @@
             height: 400px;
             background: var(--primary);
             filter: blur(150px);
-            opacity: 0.2;
+            opacity: 0.15;
             z-index: -1;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: glowMove 10s infinite alternate;
         }
 
-        @keyframes glowMove {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-40%, -60%) scale(1.2); }
-        }
-
-        /* --- 5. EMAIL CAPTURE FORM --- */
+        /* --- 5. EMAIL CAPTURE --- */
         .email-capture {
             background: linear-gradient(135deg, #111 0%, #050505 100%);
             border: 1px solid var(--border);
             padding: 40px;
-            border-radius: 20px;
-            margin: 50px auto;
+            border-radius: 15px;
+            margin: 40px auto;
             max-width: 600px;
             text-align: center;
         }
 
         .email-capture h3 {
             color: var(--primary);
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 15px;
             text-transform: uppercase;
-        }
-
-        .email-capture p {
-            color: var(--text-grey);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
         }
 
         .email-form {
@@ -564,88 +406,56 @@
 
         .email-input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 12px 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-white);
             font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .email-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
         }
 
         .email-submit {
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: var(--primary);
             color: #000;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .email-submit:hover {
-            background: #ffd54f;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
         }
 
         /* --- 6. MARQUEE --- */
         .marquee-container {
             background: var(--primary);
             color: #000;
-            padding: 15px 0;
+            padding: 12px 0;
             overflow: hidden;
             white-space: nowrap;
             position: relative;
-            transform: rotate(-2deg);
-            margin: 50px 0;
-            border-top: 2px solid #fff;
-            border-bottom: 2px solid #fff;
+            margin: 40px 0;
         }
 
         .marquee-content {
             display: inline-flex;
-            animation: scroll 20s linear infinite;
+            animation: scroll 25s linear infinite;
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-transform: uppercase;
-            gap: 40px;
-        }
-
-        .marquee-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 30px;
         }
 
         /* --- 7. GRID --- */
         .section { 
-            padding: 100px 8%; 
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s, transform 0.8s;
-        }
-        
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
+            padding: 80px 8%; 
         }
         
         .section-header { 
-            margin-bottom: 60px; 
+            margin-bottom: 50px; 
             position: relative;
         }
         
         .section-header h2 { 
-            font-size: 3.5rem; 
+            font-size: 3rem; 
             text-transform: uppercase; 
             line-height: 1; 
             position: relative;
@@ -657,10 +467,9 @@
             position: absolute;
             bottom: -10px;
             left: 0;
-            width: 100px;
-            height: 4px;
+            width: 80px;
+            height: 3px;
             background: var(--primary);
-            border-radius: 2px;
         }
         
         .section-header .sub { 
@@ -674,72 +483,42 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .glass-card {
             background: var(--bg-panel);
             border: 1px solid var(--border);
-            padding: 40px;
+            padding: 30px;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s;
-            cursor: pointer;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.1), transparent);
-            transition: left 0.6s;
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
+            transition: all 0.3s;
+            min-height: 250px;
         }
 
         .glass-card:hover { 
             border-color: var(--primary); 
-            transform: translateY(-15px) scale(1.02); 
+            transform: translateY(-10px); 
             background: rgba(255, 193, 7, 0.05);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
         }
 
         .card-icon { 
-            font-size: 3rem; 
+            font-size: 2.5rem; 
             color: var(--primary); 
-            margin-bottom: 20px; 
-            transition: transform 0.3s;
-        }
-        
-        .glass-card:hover .card-icon {
-            transform: scale(1.2) rotate(5deg);
+            margin-bottom: 15px; 
         }
         
         .glass-card h3 { 
-            font-size: 1.8rem; 
-            margin-bottom: 15px; 
+            font-size: 1.6rem; 
+            margin-bottom: 10px; 
             text-transform: uppercase; 
-            transition: color 0.3s;
-        }
-        
-        .glass-card:hover h3 {
-            color: var(--primary);
         }
         
         .glass-card p { 
             color: var(--text-grey); 
-            font-size: 1.1rem; 
-            line-height: 1.6;
+            font-size: 1rem; 
+            line-height: 1.5;
         }
 
         /* --- 8. VISITOR COUNTER --- */
@@ -749,18 +528,12 @@
             right: 20px;
             background: rgba(0, 0, 0, 0.9);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 15px;
-            z-index: 1000;
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 999;
             backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
-            min-width: 120px;
+            min-width: 100px;
             text-align: center;
-        }
-
-        .visitor-counter:hover {
-            transform: scale(1.05);
         }
 
         .visitor-title {
@@ -772,71 +545,98 @@
         }
 
         .visitor-number {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary);
-            text-align: center;
             line-height: 1;
         }
 
-        .visitor-subtext {
-            font-size: 0.6rem;
-            color: var(--text-grey);
-            text-align: center;
-            margin-top: 5px;
+        /* --- 9. GALLERY --- */
+        .gallery-flex {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
-        /* --- 9. FOOTER --- */
-        footer {
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            background: #000;
-            position: relative;
+        .shot-frame {
+            width: 220px;
+            border: 3px solid #333;
+            border-radius: 15px;
+            transition: all 0.3s;
+            filter: grayscale(0.6);
             overflow: hidden;
         }
 
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        .shot-frame:hover { 
+            filter: grayscale(0); 
+            transform: scale(1.05); 
+            border-color: var(--primary);
+        }
+        
+        .shot-frame img { 
+            width: 100%; 
+            display: block; 
+            border-radius: 12px;
         }
 
-        .back-to-top {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: var(--primary);
-            color: #000;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        /* --- 10. INSTALL --- */
+        .install-box {
+            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        .step-row {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 1.5rem;
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(255,193,7,0.3);
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .step-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: rgba(255, 193, 7, 0.1);
+            line-height: 1;
+            margin-right: 15px;
+        }
+        
+        .step-content h4 { 
+            color: var(--primary); 
+            font-size: 1.2rem; 
+            margin-bottom: 5px; 
+            text-transform: uppercase; 
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* --- 11. FOOTER --- */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: #000;
         }
 
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255,193,7,0.5);
+        /* --- 12. NOTIFICATION --- */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1001;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            max-width: 300px;
         }
 
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* --- 13. RESPONSIVE --- */
         @media (max-width: 900px) {
             .hero { 
                 flex-direction: column; 
@@ -846,19 +646,15 @@
             
             .hero-text { 
                 width: 100%; 
-                margin-bottom: 60px; 
+                margin-bottom: 50px; 
             }
             
             .hero h1 { 
-                font-size: 3.5rem; 
+                font-size: 3rem; 
             }
             
             .hero-visual { 
                 width: 100%; 
-            }
-            
-            .status-badge { 
-                margin: 0 auto 20px; 
             }
             
             .admin-panel {
@@ -868,6 +664,10 @@
             
             .email-form {
                 flex-direction: column;
+            }
+            
+            .nav-stats {
+                display: none;
             }
         }
 
@@ -882,73 +682,62 @@
     <!-- Hidden Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <h2 class="admin-title"><i class="fas fa-user-secret"></i> Admin Dashboard</h2>
-            <button class="admin-close" id="closeAdmin"><i class="fas fa-times"></i></button>
+            <h2 class="admin-title">Admin Dashboard</h2>
+            <button class="admin-close" id="closeAdmin">✕</button>
         </div>
         
         <!-- Visitor Stats -->
         <div class="admin-section">
-            <h3 class="section-title"><i class="fas fa-chart-line"></i> Visitor Statistics</h3>
+            <h3 class="section-title">Visitor Statistics</h3>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="adminTotalVisitors">0</div>
-                    <div class="stat-label-small">Total Visitors</div>
+                    <div>Total Visitors</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="adminLiveVisitors">0</div>
-                    <div class="stat-label-small">Live Now</div>
+                    <div>Live Now</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="adminEmails">0</div>
-                    <div class="stat-label-small">Emails Captured</div>
+                    <div>Emails</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="adminCountries">0</div>
-                    <div class="stat-label-small">Countries</div>
+                    <div class="stat-value" id="adminLocations">0</div>
+                    <div>Locations</div>
                 </div>
             </div>
         </div>
         
-        <!-- Visitor Map -->
+        <!-- Recent Visitors -->
         <div class="admin-section">
-            <h3 class="section-title"><i class="fas fa-map-marked-alt"></i> Visitor Locations</h3>
-            <div id="visitorMap"></div>
-        </div>
-        
-        <!-- Recent Visitors Table -->
-        <div class="admin-section">
-            <h3 class="section-title"><i class="fas fa-users"></i> Recent Visitors</h3>
+            <h3 class="section-title">Recent Visitors</h3>
             <div class="visitor-table-container">
                 <table class="visitor-table">
                     <thead>
                         <tr>
-                            <th>IP</th>
+                            <th>Time</th>
                             <th>Location</th>
                             <th>Device</th>
-                            <th>Time</th>
                         </tr>
                     </thead>
-                    <tbody id="visitorTableBody">
-                        <!-- Visitor data will be inserted here -->
-                    </tbody>
+                    <tbody id="visitorTableBody"></tbody>
                 </table>
             </div>
         </div>
         
         <!-- Captured Emails -->
         <div class="admin-section">
-            <h3 class="section-title"><i class="fas fa-envelope"></i> Captured Emails</h3>
-            <div class="email-list" id="emailList">
-                <!-- Emails will be inserted here -->
-            </div>
+            <h3 class="section-title">Captured Emails</h3>
+            <div class="email-list" id="emailList"></div>
         </div>
         
         <!-- Admin Controls -->
         <div class="admin-section">
-            <h3 class="section-title"><i class="fas fa-cog"></i> Controls</h3>
+            <h3 class="section-title">Controls</h3>
             <div class="admin-controls">
-                <button class="admin-btn" id="exportData"><i class="fas fa-download"></i> Export Data</button>
-                <button class="admin-btn delete" id="clearData"><i class="fas fa-trash"></i> Clear All</button>
+                <button class="admin-btn" id="exportData">Export Data</button>
+                <button class="admin-btn" id="clearData" style="background: #f44336; color: white;">Clear Data</button>
             </div>
         </div>
     </div>
@@ -959,7 +748,7 @@
         
         <div class="nav-stats">
             <div class="stat-item">
-                <i class="fas fa-users" style="color: var(--primary); font-size: 1rem;"></i>
+                <i class="fas fa-users" style="color: var(--primary);"></i>
                 <div class="stat-number" id="liveUsers">0</div>
                 <div class="stat-label">Live Now</div>
             </div>
@@ -972,7 +761,7 @@
         <div class="hero-text">
             <div class="status-badge">
                 <div class="status-dot"></div> 
-                <span id="server-status">Servers Online</span>
+                <span>Servers Online</span>
             </div>
             
             <h1>Play.<br><span>Dominate.</span><br>Earn.</h1>
@@ -1004,24 +793,21 @@
         </div>
     </header>
 
-    <!-- Email Capture Section -->
+    <!-- Email Capture -->
     <div class="email-capture">
         <h3>Get Early Access</h3>
-        <p>Enter your email to get notified about exclusive tournaments and early access to new features.</p>
+        <p>Enter your email to get notified about exclusive tournaments and early access.</p>
         <form class="email-form" id="emailForm">
-            <input type="email" class="email-input" placeholder="Enter your email address" required id="userEmail">
+            <input type="email" class="email-input" placeholder="Enter your email" required id="userEmail">
             <button type="submit" class="email-submit">Notify Me</button>
         </form>
-        <p style="font-size: 0.8rem; color: #666; margin-top: 15px;">We respect your privacy. No spam.</p>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 15px;">No spam. Unsubscribe anytime.</p>
     </div>
 
     <div class="marquee-container">
         <div class="marquee-content">
-            <div class="marquee-item"><i class="fas fa-trophy"></i> WINNER WINNER CHICKEN DINNER</div>
-            <div class="marquee-item"><i class="fas fa-fire"></i> BOOYAH</div>
-            <div class="marquee-item"><i class="fas fa-bolt"></i> INSTANT WITHDRAWAL</div>
-            <div class="marquee-item"><i class="fas fa-gamepad"></i> PLAY DAILY</div>
-            <div class="marquee-item"><i class="fas fa-crown"></i> KILLSTREAK ESPORTS</div>
+            <span>WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •</span>
+            <span>WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •</span>
         </div>
     </div>
 
@@ -1072,14 +858,14 @@
         <div class="install-box">
             <div class="section-header">
                 <h2>How to Install</h2>
-                <p style="color: #666;">Real Money Gaming apps are not available on Play Store. Install safely below:</p>
+                <p style="color: #666;">Install safely with these simple steps:</p>
             </div>
 
             <div class="step-row">
                 <div class="step-num">01</div>
                 <div class="step-content">
                     <h4>Download APK</h4>
-                    <p>Click the download button. Ignore the "Harmful file" warning - this is standard for all off-market apps.</p>
+                    <p>Click the download button. Ignore browser warnings about unknown files.</p>
                 </div>
             </div>
 
@@ -1087,7 +873,7 @@
                 <div class="step-num">02</div>
                 <div class="step-content">
                     <h4>Enable Unknown Sources</h4>
-                    <p>Go to Settings > Security > Install Unknown Apps > Allow for Chrome/Browser.</p>
+                    <p>Go to Settings > Security > Install Unknown Apps > Allow for your browser.</p>
                 </div>
             </div>
 
@@ -1101,191 +887,150 @@
         </div>
     </section>
 
-    <!-- Visitor Counter Widget -->
-    <div class="visitor-counter" id="visitorCounter">
+    <!-- Visitor Counter -->
+    <div class="visitor-counter">
         <div class="visitor-title">Live Visitors</div>
         <div class="visitor-number" id="visitorNumber">0</div>
-        <div class="visitor-subtext">On Site Now</div>
     </div>
 
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top" id="backToTop">
-        <i class="fas fa-chevron-up"></i>
-    </a>
-
     <footer>
-        <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" style="height: 60px; opacity: 0.5; margin-bottom: 20px;">
+        <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" style="height: 50px; opacity: 0.5; margin-bottom: 15px;">
         <p style="color: #444; font-size: 0.9rem;">&copy; 2025 Killstreak Esports. Play Responsibly.</p>
         <p style="color: #555; font-size: 0.8rem; margin-top: 10px;">Total Visitors: <span id="footerVisitors">0</span></p>
     </footer>
 
     <script>
-        // ========== ADMIN PANEL FUNCTIONALITY ==========
+        // ========== SIMPLIFIED VISITOR TRACKING ==========
         
-        // Visitor data structure
+        // Initialize data
         let visitorData = {
             totalVisitors: 0,
+            liveVisitors: 15,
             visitors: [],
             emails: [],
-            countries: new Set(),
-            liveVisitors: 0
+            countries: []
         };
 
-        // Initialize data from localStorage
-        function initializeData() {
-            const savedData = localStorage.getItem('killstreakAdminData');
-            if (savedData) {
-                visitorData = JSON.parse(savedData);
-                // Convert countries Set from array
-                if (Array.isArray(visitorData.countries)) {
-                    visitorData.countries = new Set(visitorData.countries);
-                } else {
-                    visitorData.countries = new Set();
-                }
+        // Load from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('killstreakData');
+            if (saved) {
+                visitorData = JSON.parse(saved);
             } else {
-                // Set initial values
+                // Initial values
                 visitorData.totalVisitors = Math.floor(Math.random() * 500) + 1250;
                 visitorData.liveVisitors = Math.floor(Math.random() * 30) + 15;
                 saveData();
             }
-            
-            updatePublicCounters();
-            updateAdminPanel();
-            initializeMap();
+            updateDisplay();
         }
 
-        // Save data to localStorage
+        // Save to localStorage
         function saveData() {
-            // Convert Set to array for storage
-            const dataToSave = {
-                ...visitorData,
-                countries: Array.from(visitorData.countries)
-            };
-            localStorage.setItem('killstreakAdminData', JSON.stringify(dataToSave));
+            localStorage.setItem('killstreakData', JSON.stringify(visitorData));
         }
 
         // Track new visitor
-        async function trackVisitor() {
-            try {
-                // Get visitor IP and location
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const ip = ipData.ip;
-                
-                // Get location data
-                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
-                const locationData = await locationResponse.json();
-                
-                // Create visitor object
-                const visitor = {
-                    id: Date.now(),
-                    ip: ip,
-                    city: locationData.city || 'Unknown',
-                    region: locationData.region || 'Unknown',
-                    country: locationData.country_name || 'Unknown',
-                    countryCode: locationData.country_code || 'XX',
-                    lat: locationData.latitude || 0,
-                    lon: locationData.longitude || 0,
-                    isp: locationData.org || 'Unknown ISP',
-                    device: getDeviceInfo(),
-                    browser: getBrowserInfo(),
-                    timestamp: new Date().toISOString(),
-                    time: new Date().toLocaleTimeString(),
-                    date: new Date().toLocaleDateString()
-                };
-                
-                // Add to data
-                visitorData.totalVisitors++;
-                visitorData.visitors.unshift(visitor); // Add to beginning
-                visitorData.countries.add(visitor.country);
-                
-                // Keep only last 100 visitors
-                if (visitorData.visitors.length > 100) {
-                    visitorData.visitors = visitorData.visitors.slice(0, 100);
-                }
-                
-                // Simulate live visitors
-                visitorData.liveVisitors = Math.floor(Math.random() * 20) + 10;
-                
-                saveData();
-                updatePublicCounters();
-                updateAdminPanel();
-                addMapMarker(visitor);
-                
-                console.log('Visitor tracked:', visitor);
-                
-            } catch (error) {
-                console.error('Error tracking visitor:', error);
-                // Fallback data
-                const fallbackVisitor = {
-                    id: Date.now(),
-                    ip: 'Unable to fetch',
-                    city: 'Unknown',
-                    region: 'Unknown',
-                    country: 'Unknown',
-                    countryCode: 'XX',
-                    lat: 0,
-                    lon: 0,
-                    isp: 'Unknown',
-                    device: getDeviceInfo(),
-                    browser: getBrowserInfo(),
-                    timestamp: new Date().toISOString(),
-                    time: new Date().toLocaleTimeString(),
-                    date: new Date().toLocaleDateString()
-                };
-                
-                visitorData.totalVisitors++;
-                visitorData.visitors.unshift(fallbackVisitor);
-                saveData();
-                updatePublicCounters();
-                updateAdminPanel();
+        function trackVisitor() {
+            visitorData.totalVisitors++;
+            
+            // Get basic visitor info
+            const visitor = {
+                id: Date.now(),
+                time: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString(),
+                device: getDeviceType(),
+                browser: getBrowser(),
+                location: await getLocation(),
+                ip: await getIP()
+            };
+            
+            visitorData.visitors.unshift(visitor);
+            
+            // Keep only last 50 visitors
+            if (visitorData.visitors.length > 50) {
+                visitorData.visitors = visitorData.visitors.slice(0, 50);
             }
+            
+            // Update live count
+            visitorData.liveVisitors = Math.floor(Math.random() * 20) + 10;
+            
+            saveData();
+            updateDisplay();
+            updateAdminPanel();
         }
 
-        // Get device information
-        function getDeviceInfo() {
+        // Get device type
+        function getDeviceType() {
             const ua = navigator.userAgent;
             if (/mobile/i.test(ua)) return 'Mobile';
             if (/tablet/i.test(ua)) return 'Tablet';
             return 'Desktop';
         }
 
-        // Get browser information
-        function getBrowserInfo() {
+        // Get browser
+        function getBrowser() {
             const ua = navigator.userAgent;
             if (/chrome/i.test(ua)) return 'Chrome';
             if (/firefox/i.test(ua)) return 'Firefox';
             if (/safari/i.test(ua)) return 'Safari';
-            if (/edge/i.test(ua)) return 'Edge';
             return 'Other';
         }
 
-        // Capture email from form
+        // Get IP (simplified)
+        async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch {
+                return 'Unknown';
+            }
+        }
+
+        // Get location (simplified)
+        async function getLocation() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                return `${data.city || 'Unknown'}, ${data.country_name || 'Unknown'}`;
+            } catch {
+                return 'Unknown';
+            }
+        }
+
+        // Capture email
         function captureEmail(email) {
             const emailData = {
                 email: email,
-                timestamp: new Date().toISOString(),
                 time: new Date().toLocaleTimeString(),
-                date: new Date().toLocaleDateString(),
-                source: 'Website form'
+                date: new Date().toLocaleDateString()
             };
             
             visitorData.emails.unshift(emailData);
             
-            // Keep only last 50 emails
-            if (visitorData.emails.length > 50) {
-                visitorData.emails = visitorData.emails.slice(0, 50);
+            // Keep only last 30 emails
+            if (visitorData.emails.length > 30) {
+                visitorData.emails = visitorData.emails.slice(0, 30);
+            }
+            
+            // Update countries from email domain
+            const domain = email.split('@')[1];
+            if (domain && !visitorData.countries.includes(domain.split('.')[1])) {
+                visitorData.countries.push(domain.split('.')[1]);
             }
             
             saveData();
             updateAdminPanel();
             
-            // Show success message
-            showNotification(`Email captured: ${email}`);
+            // Show notification
+            showNotification('Email captured successfully!');
+            return true;
         }
 
-        // Update public counters
-        function updatePublicCounters() {
+        // Update display
+        function updateDisplay() {
+            // Update all counters
             document.getElementById('totalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
             document.getElementById('activeNow').textContent = visitorData.liveVisitors.toLocaleString();
             document.getElementById('liveUsers').textContent = visitorData.liveVisitors.toLocaleString();
@@ -1299,7 +1044,7 @@
             document.getElementById('adminTotalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
             document.getElementById('adminLiveVisitors').textContent = visitorData.liveVisitors.toLocaleString();
             document.getElementById('adminEmails').textContent = visitorData.emails.length;
-            document.getElementById('adminCountries').textContent = visitorData.countries.size;
+            document.getElementById('adminLocations').textContent = visitorData.countries.length;
             
             // Update visitor table
             const tableBody = document.getElementById('visitorTableBody');
@@ -1308,15 +1053,9 @@
             visitorData.visitors.slice(0, 10).forEach(visitor => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${visitor.ip}</td>
-                    <td>
-                        ${visitor.countryCode !== 'XX' ? 
-                            `<img src="https://flagcdn.com/w20/${visitor.countryCode.toLowerCase()}.png" class="country-flag" alt="${visitor.country}">` : 
-                            ''}
-                        ${visitor.city}, ${visitor.country}
-                    </td>
-                    <td>${visitor.device}</td>
                     <td>${visitor.time}</td>
+                    <td>${visitor.location}</td>
+                    <td>${visitor.device}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -1328,226 +1067,147 @@
             visitorData.emails.slice(0, 10).forEach(emailData => {
                 const emailItem = document.createElement('div');
                 emailItem.className = 'email-item';
-                emailItem.innerHTML = `
-                    <span class="email-address">${emailData.email}</span>
-                    <span class="email-date">${emailData.date}</span>
-                `;
+                emailItem.textContent = `${emailData.email} - ${emailData.date}`;
                 emailList.appendChild(emailItem);
             });
         }
 
-        // Initialize map
-        let map;
-        let markers = [];
-
-        function initializeMap() {
-            map = L.map('visitorMap').setView([20, 0], 2);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 18
-            }).addTo(map);
-            
-            // Add existing visitor markers
-            visitorData.visitors.forEach(visitor => {
-                if (visitor.lat && visitor.lon && visitor.lat !== 0 && visitor.lon !== 0) {
-                    addMapMarker(visitor);
-                }
-            });
-        }
-
-        // Add marker to map
-        function addMapMarker(visitor) {
-            if (!map || !visitor.lat || !visitor.lon || visitor.lat === 0 || visitor.lon === 0) return;
-            
-            const marker = L.marker([visitor.lat, visitor.lon]).addTo(map);
-            marker.bindPopup(`
-                <strong>${visitor.city}, ${visitor.country}</strong><br>
-                IP: ${visitor.ip}<br>
-                Device: ${visitor.device}<br>
-                Time: ${visitor.time}
-            `);
-            
-            markers.push(marker);
-            
-            // Keep only last 50 markers
-            if (markers.length > 50) {
-                map.removeLayer(markers[0]);
-                markers.shift();
-            }
-        }
-
-        // Admin panel controls
+        // Export data
         function exportData() {
             const dataStr = JSON.stringify(visitorData, null, 2);
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `killstreak-visitors-${new Date().toISOString().split('T')[0]}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showNotification('Data exported successfully!');
+            const link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', `killstreak-data-${new Date().toISOString().split('T')[0]}.json`);
+            link.click();
+            showNotification('Data exported!');
         }
 
+        // Clear data
         function clearData() {
-            if (confirm('Are you sure you want to clear ALL visitor data? This cannot be undone.')) {
+            if (confirm('Clear all visitor data?')) {
                 visitorData = {
                     totalVisitors: 0,
+                    liveVisitors: 0,
                     visitors: [],
                     emails: [],
-                    countries: new Set(),
-                    liveVisitors: 0
+                    countries: []
                 };
-                
-                // Clear markers
-                markers.forEach(marker => map.removeLayer(marker));
-                markers = [];
-                
                 saveData();
-                updatePublicCounters();
+                updateDisplay();
                 updateAdminPanel();
-                
-                showNotification('All data cleared!');
+                showNotification('Data cleared!');
             }
         }
 
         // Show notification
         function showNotification(message) {
-            // Create notification element
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.innerHTML = `
-                <div class="notification-content">
-                    <div class="notification-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="notification-text">${message}</div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-check-circle" style="color: var(--primary);"></i>
+                    <span>${message}</span>
                 </div>
             `;
-            
             document.body.appendChild(notification);
             
-            // Show and hide
             setTimeout(() => notification.classList.add('show'), 10);
             setTimeout(() => {
                 notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
+                setTimeout(() => notification.remove(), 300);
             }, 3000);
         }
 
         // ========== ADMIN PANEL ACCESS ==========
         let secretCode = '';
-        const adminCode = 'admin123'; // Secret code to open admin panel
+        const ADMIN_CODE = 'admin123';
 
-        function checkSecretCode(key) {
-            secretCode += key.toLowerCase();
-            if (secretCode.length > adminCode.length) {
-                secretCode = secretCode.substring(1);
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'a') {
+                e.preventDefault();
+                document.getElementById('adminPanel').classList.add('active');
             }
             
-            if (secretCode === adminCode) {
-                openAdminPanel();
-                secretCode = ''; // Reset after opening
+            // Secret code: admin123
+            secretCode += e.key.toLowerCase();
+            if (secretCode.includes(ADMIN_CODE)) {
+                document.getElementById('adminPanel').classList.add('active');
+                secretCode = '';
             }
-        }
+            
+            // Keep last 10 characters
+            if (secretCode.length > 10) {
+                secretCode = secretCode.slice(-10);
+            }
+        });
 
-        function openAdminPanel() {
-            document.getElementById('adminPanel').classList.add('active');
-            updateAdminPanel();
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('adminPanel').classList.remove('active');
-        }
-
-        // ========== MAIN WEBSITE FUNCTIONALITY ==========
+        // ========== MAIN WEBSITE FUNCTIONS ==========
         
-        // Start download
         function startDownload() {
             const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
             window.open(apkUrl, '_blank');
-            showNotification('Starting download...');
+            showNotification('Download started!');
         }
 
-        // Phone tilt effect
+        // Phone hover effect
         const phone = document.querySelector('.hero-phone');
-        document.addEventListener('mousemove', (e) => {
-            if(window.innerWidth > 900) {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                phone.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
+        phone.addEventListener('mouseenter', () => {
+            phone.style.transform = 'perspective(1000px) rotateY(0deg)';
         });
         
-        // Scroll animations
-        function checkScroll() {
-            const sections = document.querySelectorAll('.section');
-            const windowHeight = window.innerHeight;
-            const scrollY = window.scrollY;
-            
-            // Back to top button
-            const backToTopEl = document.getElementById('backToTop');
-            if (scrollY > 500) {
-                backToTopEl.classList.add('visible');
+        phone.addEventListener('mouseleave', () => {
+            phone.style.transform = 'perspective(1000px) rotateY(-10deg)';
+        });
+
+        // Scroll effects
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
             } else {
-                backToTopEl.classList.remove('visible');
+                navbar.classList.remove('scrolled');
             }
-            
-            // Navbar scroll effect
-            const navbarEl = document.getElementById('navbar');
-            if (scrollY > 100) {
-                navbarEl.classList.add('scrolled');
-            } else {
-                navbarEl.classList.remove('scrolled');
-            }
-            
-            // Animate sections
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY + windowHeight - 100 > sectionTop) {
-                    section.classList.add('visible');
-                }
-            });
-        }
+        });
 
         // ========== INITIALIZATION ==========
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize data and tracking
-            initializeData();
-            trackVisitor(); // Track current visitor
+            // Load data
+            loadData();
             
-            // Set up secret code listener
-            document.addEventListener('keydown', (e) => {
-                if (!document.getElementById('adminPanel').classList.contains('active')) {
-                    checkSecretCode(e.key);
-                }
-            });
+            // Track current visitor
+            setTimeout(() => {
+                trackVisitor();
+                showNotification('Welcome to Killstreak!');
+            }, 1000);
             
-            // Admin panel event listeners
-            document.getElementById('closeAdmin').addEventListener('click', closeAdminPanel);
-            document.getElementById('exportData').addEventListener('click', exportData);
-            document.getElementById('clearData').addEventListener('click', clearData);
-            
-            // Email form submission
+            // Email form
             document.getElementById('emailForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const email = document.getElementById('userEmail').value;
                 if (email && email.includes('@')) {
-                    captureEmail(email);
-                    document.getElementById('userEmail').value = '';
-                    showNotification('Thank you! We\'ll notify you about updates.');
+                    if (captureEmail(email)) {
+                        document.getElementById('userEmail').value = '';
+                    }
                 }
             });
             
-            // Scroll event listener
-            window.addEventListener('scroll', checkScroll);
-            checkScroll();
+            // Admin panel controls
+            document.getElementById('closeAdmin').addEventListener('click', () => {
+                document.getElementById('adminPanel').classList.remove('active');
+            });
             
-            // Back to top
-            document.getElementById('backToTop').addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('exportData').addEventListener('click', exportData);
+            document.getElementById('clearData').addEventListener('click', clearData);
+            
+            // Close admin panel when clicking outside
+            document.addEventListener('click', (e) => {
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel.classList.contains('active') && 
+                    !adminPanel.contains(e.target) && 
+                    !e.target.closest('.admin-btn')) {
+                    adminPanel.classList.remove('active');
+                }
             });
             
             // Simulate live visitor updates
@@ -1555,13 +1215,20 @@
                 // Randomly update live visitors
                 const change = Math.floor(Math.random() * 3) - 1;
                 visitorData.liveVisitors = Math.max(5, visitorData.liveVisitors + change);
-                updatePublicCounters();
+                
+                // Update displays
+                document.getElementById('activeNow').textContent = visitorData.liveVisitors;
+                document.getElementById('liveUsers').textContent = visitorData.liveVisitors;
+                document.getElementById('visitorNumber').textContent = visitorData.liveVisitors;
                 
                 // Update admin panel if open
                 if (document.getElementById('adminPanel').classList.contains('active')) {
-                    updateAdminPanel();
+                    document.getElementById('adminLiveVisitors').textContent = visitorData.liveVisitors;
                 }
-            }, 10000); // Every 10 seconds
+            }, 10000); // Update every 10 seconds
+            
+            // Auto-save every minute
+            setInterval(saveData, 60000);
         });
     </script>
 </body>
