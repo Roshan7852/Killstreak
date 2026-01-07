@@ -6,13 +6,6 @@
     <title>Killstreak | The Future of Esports</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
-    </script>
 
     <link rel="icon" type="image/png" href="https://generous-gray-tmipyfxyr7.edgeone.app/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,24 +77,24 @@
         .nav-stats {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             font-weight: 600;
         }
 
         .stat-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 8px;
         }
 
         .stat-number {
             color: var(--primary);
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             color: var(--text-grey);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -499,7 +492,7 @@
             border: 1px solid var(--border);
             padding: 30px;
             border-radius: 15px;
-            min-width: 200px;
+            min-width: 250px;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
@@ -528,6 +521,54 @@
             font-size: 0.9rem;
             color: var(--text-grey);
             margin-top: 10px;
+        }
+
+        .user-avatars {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffc107, #ff9800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 2px solid var(--primary);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .user-avatar:nth-child(2) {
+            animation-delay: 0.5s;
+            background: linear-gradient(45deg, #2196F3, #03A9F4);
+        }
+
+        .user-avatar:nth-child(3) {
+            animation-delay: 1s;
+            background: linear-gradient(45deg, #9C27B0, #E91E63);
+        }
+
+        .user-avatar:nth-child(4) {
+            animation-delay: 1.5s;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        }
+
+        .user-avatar:nth-child(5) {
+            animation-delay: 2s;
+            background: linear-gradient(45deg, #FF5722, #FF9800);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .btn-interactive {
@@ -679,7 +720,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 15px;
@@ -687,6 +728,8 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s;
+            min-width: 120px;
+            text-align: center;
         }
 
         .visitor-counter:hover {
@@ -694,7 +737,7 @@
         }
 
         .visitor-title {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--text-grey);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -710,7 +753,7 @@
         }
 
         .visitor-subtext {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: var(--text-grey);
             text-align: center;
             margin-top: 5px;
@@ -729,6 +772,7 @@
             transform: translateX(150%);
             transition: transform 0.5s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            max-width: 300px;
         }
 
         .notification.show {
@@ -824,10 +868,6 @@
                 margin: 0 auto 20px; 
             }
             
-            .nav-stats {
-                display: none;
-            }
-            
             .counter-container {
                 flex-direction: column;
                 align-items: center;
@@ -836,6 +876,10 @@
             .counter-box {
                 width: 100%;
                 max-width: 300px;
+            }
+            
+            .nav-stats {
+                font-size: 0.9rem;
             }
         }
 
@@ -852,16 +896,9 @@
         
         <div class="nav-stats">
             <div class="stat-item">
+                <i class="fas fa-users" style="color: var(--primary); font-size: 1rem;"></i>
                 <div class="stat-number" id="liveUsers">0</div>
                 <div class="stat-label">Live Now</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="totalMatches">0</div>
-                <div class="stat-label">Matches</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="totalWins">0</div>
-                <div class="stat-label">Wins</div>
             </div>
         </div>
         
@@ -871,7 +908,7 @@
     <div class="notification" id="notification">
         <div class="notification-content">
             <div class="notification-icon"><i class="fas fa-user-plus"></i></div>
-            <div class="notification-text">New player just joined! Welcome to <strong>Killstreak</strong>!</div>
+            <div class="notification-text">New visitor just joined!</div>
         </div>
     </div>
 
@@ -888,16 +925,12 @@
             
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <div class="hero-stat-number" id="heroUsers">0</div>
-                    <div class="hero-stat-label">Active Players</div>
+                    <div class="hero-stat-number" id="totalVisitors">0</div>
+                    <div class="hero-stat-label">Total Visitors</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-number" id="heroPrize">₹0</div>
-                    <div class="hero-stat-label">Paid Out Today</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number" id="heroMatches">0</div>
-                    <div class="hero-stat-label">Live Matches</div>
+                    <div class="hero-stat-number" id="activeNow">0</div>
+                    <div class="hero-stat-label">Active Now</div>
                 </div>
             </div>
             
@@ -949,45 +982,51 @@
             </div>
         </div>
 
-        <!-- Interactive Section -->
+        <!-- Interactive User Counter Section -->
         <div class="interactive-section">
-            <h2 class="interactive-title">Live Community Stats</h2>
-            <p style="margin-bottom: 30px; color: var(--text-grey);">Join thousands of players who are already dominating the battlefield</p>
+            <h2 class="interactive-title">Live Visitor Statistics</h2>
+            <p style="margin-bottom: 30px; color: var(--text-grey);">See how many gamers are checking out Killstreak right now</p>
             
             <div class="counter-container">
                 <div class="counter-box">
-                    <h3>Total Players</h3>
-                    <div class="counter-number" id="totalPlayers">0</div>
-                    <div class="counter-subtext">Joined Killstreak</div>
+                    <h3>Total Visitors</h3>
+                    <div class="counter-number" id="totalCounter">0</div>
+                    <div class="counter-subtext">All-time website visitors</div>
+                    
+                    <div class="user-avatars">
+                        <div class="user-avatar">A</div>
+                        <div class="user-avatar">B</div>
+                        <div class="user-avatar">C</div>
+                        <div class="user-avatar">D</div>
+                        <div class="user-avatar">+</div>
+                    </div>
                 </div>
                 
                 <div class="counter-box">
-                    <h3>Today's Winners</h3>
-                    <div class="counter-number" id="todayWinners">0</div>
-                    <div class="counter-subtext">Withdrawn Earnings</div>
-                </div>
-                
-                <div class="counter-box">
-                    <h3>Matches Played</h3>
-                    <div class="counter-number" id="matchesPlayed">0</div>
-                    <div class="counter-subtext">24 Hour Count</div>
+                    <h3>Live Now</h3>
+                    <div class="counter-number" id="liveCounter">0</div>
+                    <div class="counter-subtext">Currently browsing this site</div>
+                    
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <div style="width: 12px; height: 12px; background: #00ff88; border-radius: 50%; animation: blink 1.5s infinite;"></div>
+                            <span style="font-size: 0.9rem; color: #00ff88;">Live Tracking Active</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div style="margin-top: 40px;">
-                <button class="btn-interactive" onclick="simulateNewPlayer()">
-                    <i class="fas fa-user-plus"></i> Simulate New Player
+                <button class="btn-interactive" onclick="simulateNewVisitor()">
+                    <i class="fas fa-user-plus"></i> Simulate New Visitor
                 </button>
-                <button class="btn-interactive" onclick="simulateMatchWin()">
-                    <i class="fas fa-trophy"></i> Simulate Match Win
-                </button>
-                <button class="btn-interactive" onclick="simulateWithdrawal()">
-                    <i class="fas fa-rupee-sign"></i> Simulate Withdrawal
+                <button class="btn-interactive" onclick="resetCounter()">
+                    <i class="fas fa-redo"></i> Reset Counter
                 </button>
             </div>
             
             <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-                <i class="fas fa-info-circle"></i> Click buttons to simulate live updates
+                <i class="fas fa-info-circle"></i> Visitor count updates in real-time. Click buttons to simulate activity.
             </p>
         </div>
     </section>
@@ -1069,69 +1108,65 @@
 
     <script>
         // Visitor counter with localStorage
-        let visitorCount = localStorage.getItem('killstreakVisitors');
-        if (!visitorCount) {
-            // Start with a random base number to simulate existing users
-            visitorCount = Math.floor(Math.random() * 500) + 1250;
-            localStorage.setItem('killstreakVisitors', visitorCount);
+        let totalVisitors = localStorage.getItem('killstreakTotalVisitors');
+        if (!totalVisitors) {
+            // Start with a random base number to simulate existing visitors
+            totalVisitors = Math.floor(Math.random() * 500) + 1250;
+            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
         }
         
         // Convert to number
-        visitorCount = parseInt(visitorCount);
+        totalVisitors = parseInt(totalVisitors);
         
-        // Live users simulation (changes every few seconds)
-        let liveUsers = Math.floor(Math.random() * 50) + 150;
-        let totalMatches = Math.floor(Math.random() * 500) + 2500;
-        let totalWins = Math.floor(Math.random() * 800) + 1200;
-        let todayWinners = Math.floor(Math.random() * 100) + 50;
-        let matchesPlayed = Math.floor(Math.random() * 200) + 800;
-        let prizePool = Math.floor(Math.random() * 50000) + 250000;
+        // Active users simulation (changes every few seconds)
+        let activeUsers = Math.floor(Math.random() * 30) + 15;
+        
+        // Session tracking for current visitor
+        let currentSession = localStorage.getItem('killstreakCurrentSession');
+        if (!currentSession) {
+            // This is a new session
+            currentSession = Date.now();
+            localStorage.setItem('killstreakCurrentSession', currentSession);
+            // Increment total visitors for this new session
+            totalVisitors++;
+            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
+        }
         
         // DOM elements
         const visitorNumberEl = document.getElementById('visitorNumber');
         const footerVisitorsEl = document.getElementById('footerVisitors');
         const liveUsersEl = document.getElementById('liveUsers');
-        const totalMatchesEl = document.getElementById('totalMatches');
-        const totalWinsEl = document.getElementById('totalWins');
-        const heroUsersEl = document.getElementById('heroUsers');
-        const heroPrizeEl = document.getElementById('heroPrize');
-        const heroMatchesEl = document.getElementById('heroMatches');
-        const totalPlayersEl = document.getElementById('totalPlayers');
-        const todayWinnersEl = document.getElementById('todayWinners');
-        const matchesPlayedEl = document.getElementById('matchesPlayed');
+        const totalVisitorsEl = document.getElementById('totalVisitors');
+        const activeNowEl = document.getElementById('activeNow');
+        const totalCounterEl = document.getElementById('totalCounter');
+        const liveCounterEl = document.getElementById('liveCounter');
         const notificationEl = document.getElementById('notification');
         const backToTopEl = document.getElementById('backToTop');
         const navbarEl = document.getElementById('navbar');
         
         // Initialize counters
         function initializeCounters() {
-            // Increment visitor count for this visit
-            visitorCount++;
-            localStorage.setItem('killstreakVisitors', visitorCount);
-            
             // Update all counter elements
             updateCounters();
             
-            // Animate the visitor counter
-            animateCounter(visitorNumberEl, 0, visitorCount, 2000);
-            animateCounter(footerVisitorsEl, 0, visitorCount, 2000);
-            animateCounter(heroUsersEl, 0, liveUsers, 1500);
-            animateCounter(totalPlayersEl, 0, visitorCount, 2000);
-            
-            // Format currency for prize pool
-            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
-            animateCounter(todayWinnersEl, 0, todayWinners, 1500);
-            animateCounter(matchesPlayedEl, 0, matchesPlayed, 1500);
+            // Animate the counters
+            animateCounter(visitorNumberEl, 0, activeUsers, 1500);
+            animateCounter(footerVisitorsEl, 0, totalVisitors, 2000);
+            animateCounter(totalVisitorsEl, 0, totalVisitors, 2000);
+            animateCounter(activeNowEl, 0, activeUsers, 1500);
+            animateCounter(totalCounterEl, 0, totalVisitors, 2000);
+            animateCounter(liveCounterEl, 0, activeUsers, 1500);
             
             // Update nav stats
-            liveUsersEl.textContent = liveUsers;
-            totalMatchesEl.textContent = totalMatches.toLocaleString();
-            totalWinsEl.textContent = totalWins.toLocaleString();
+            liveUsersEl.textContent = activeUsers;
             
             // Show welcome notification after delay
             setTimeout(() => {
-                showNotification(`Welcome! You're visitor #${visitorCount}`);
+                showNotification(`Welcome! You're visitor #${totalVisitors}`);
             }, 1000);
+            
+            // Start live updates
+            startLiveUpdates();
         }
         
         // Animate counter from start to end
@@ -1144,13 +1179,7 @@
                 if (!startTime) startTime = timestamp;
                 const progress = Math.min((timestamp - startTime) / duration, 1);
                 const value = Math.floor(progress * (end - start) + start);
-                
-                // Check if element is for currency
-                if (element.id === 'heroPrize') {
-                    element.textContent = `₹${value.toLocaleString()}`;
-                } else {
-                    element.textContent = value.toLocaleString();
-                }
+                element.textContent = value.toLocaleString();
                 
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
@@ -1161,15 +1190,13 @@
         
         // Update all counters
         function updateCounters() {
-            visitorNumberEl.textContent = liveUsers.toLocaleString();
-            footerVisitorsEl.textContent = visitorCount.toLocaleString();
-            heroUsersEl.textContent = liveUsers.toLocaleString();
-            totalPlayersEl.textContent = visitorCount.toLocaleString();
-            todayWinnersEl.textContent = todayWinners.toLocaleString();
-            matchesPlayedEl.textContent = matchesPlayed.toLocaleString();
-            liveUsersEl.textContent = liveUsers.toLocaleString();
-            totalMatchesEl.textContent = totalMatches.toLocaleString();
-            totalWinsEl.textContent = totalWins.toLocaleString();
+            visitorNumberEl.textContent = activeUsers.toLocaleString();
+            footerVisitorsEl.textContent = totalVisitors.toLocaleString();
+            liveUsersEl.textContent = activeUsers.toLocaleString();
+            totalVisitorsEl.textContent = totalVisitors.toLocaleString();
+            activeNowEl.textContent = activeUsers.toLocaleString();
+            totalCounterEl.textContent = totalVisitors.toLocaleString();
+            liveCounterEl.textContent = activeUsers.toLocaleString();
         }
         
         // Show notification
@@ -1185,44 +1212,55 @@
             }, 3000);
         }
         
-        // Simulate new player joining
-        function simulateNewPlayer() {
-            visitorCount += Math.floor(Math.random() * 3) + 1;
-            localStorage.setItem('killstreakVisitors', visitorCount);
-            liveUsers += Math.floor(Math.random() * 5) + 1;
+        // Simulate new visitor
+        function simulateNewVisitor() {
+            totalVisitors += 1;
+            localStorage.setItem('killstreakTotalVisitors', totalVisitors);
+            activeUsers += Math.floor(Math.random() * 2) + 1;
             
             updateCounters();
-            animateCounter(visitorNumberEl, parseInt(visitorNumberEl.textContent.replace(/,/g, '')), liveUsers, 500);
-            animateCounter(totalPlayersEl, parseInt(totalPlayersEl.textContent.replace(/,/g, '')), visitorCount, 500);
+            animateCounter(visitorNumberEl, parseInt(visitorNumberEl.textContent.replace(/,/g, '')), activeUsers, 500);
+            animateCounter(totalCounterEl, parseInt(totalCounterEl.textContent.replace(/,/g, '')), totalVisitors, 500);
             
-            showNotification(`<i class="fas fa-user-plus"></i> ${Math.floor(Math.random() * 3) + 1} new player${Math.floor(Math.random() * 3) + 1 > 1 ? 's' : ''} just joined!`);
+            showNotification(`<i class="fas fa-user-plus"></i> New visitor just joined the site!`);
         }
         
-        // Simulate match win
-        function simulateMatchWin() {
-            totalWins += Math.floor(Math.random() * 5) + 1;
-            todayWinners += Math.floor(Math.random() * 3) + 1;
-            matchesPlayed += Math.floor(Math.random() * 10) + 5;
-            
-            updateCounters();
-            animateCounter(todayWinnersEl, parseInt(todayWinnersEl.textContent.replace(/,/g, '')), todayWinners, 500);
-            animateCounter(matchesPlayedEl, parseInt(matchesPlayedEl.textContent.replace(/,/g, '')), matchesPlayed, 500);
-            
-            const winAmount = Math.floor(Math.random() * 500) + 100;
-            prizePool += winAmount;
-            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
-            
-            showNotification(`<i class="fas fa-trophy"></i> Player won ₹${winAmount} in a match!`);
+        // Reset counter (for testing)
+        function resetCounter() {
+            if (confirm("Reset visitor counter to zero?")) {
+                totalVisitors = 0;
+                activeUsers = 1;
+                localStorage.setItem('killstreakTotalVisitors', totalVisitors);
+                updateCounters();
+                showNotification(`<i class="fas fa-redo"></i> Visitor counter has been reset!`);
+            }
         }
         
-        // Simulate withdrawal
-        function simulateWithdrawal() {
-            const withdrawAmount = Math.floor(Math.random() * 1000) + 200;
-            prizePool -= withdrawAmount;
-            if (prizePool < 0) prizePool = 0;
-            
-            heroPrizeEl.textContent = `₹${prizePool.toLocaleString()}`;
-            showNotification(`<i class="fas fa-rupee-sign"></i> ₹${withdrawAmount} withdrawn to UPI successfully!`);
+        // Start live updates simulation
+        function startLiveUpdates() {
+            // Update active users randomly
+            setInterval(() => {
+                // Randomly change active users (simulate people coming and going)
+                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                activeUsers = Math.max(1, activeUsers + change);
+                
+                // Update all active user counters
+                visitorNumberEl.textContent = activeUsers.toLocaleString();
+                liveUsersEl.textContent = activeUsers.toLocaleString();
+                activeNowEl.textContent = activeUsers.toLocaleString();
+                liveCounterEl.textContent = activeUsers.toLocaleString();
+                
+                // Occasionally show random notifications about visitors
+                if (Math.random() > 0.9) {
+                    const notifications = [
+                        `<i class="fas fa-users"></i> ${Math.floor(Math.random() * 3) + 1} new visitors just arrived!`,
+                        `<i class="fas fa-eye"></i> ${activeUsers} people viewing this site right now!`,
+                        `<i class="fas fa-globe"></i> Visitor from new location detected!`,
+                        `<i class="fas fa-chart-line"></i> Website traffic is increasing!`
+                    ];
+                    showNotification(notifications[Math.floor(Math.random() * notifications.length)]);
+                }
+            }, 5000); // Update every 5 seconds
         }
         
         // Mark installation step as complete
@@ -1261,11 +1299,6 @@
             
             // Show downloading notification
             showNotification('<i class="fas fa-download"></i> Starting download...');
-            
-            // Simulate download progress
-            setTimeout(() => {
-                showNotification('<i class="fas fa-check-circle"></i> Download started! Check your notifications.');
-            }, 1000);
             
             // Open download link
             window.open(apkUrl, '_blank');
@@ -1313,14 +1346,6 @@
                     section.classList.add('visible');
                 }
             });
-            
-            // Update live users randomly on scroll
-            if (Math.random() > 0.7) {
-                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
-                liveUsers = Math.max(150, liveUsers + change);
-                visitorNumberEl.textContent = liveUsers.toLocaleString();
-                heroUsersEl.textContent = liveUsers.toLocaleString();
-            }
         }
         
         // Back to top functionality
@@ -1344,28 +1369,6 @@
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', () => {
             initializeCounters();
-            
-            // Start live updates simulation
-            setInterval(() => {
-                // Randomly update live users
-                if (Math.random() > 0.5) {
-                    const change = Math.floor(Math.random() * 3) - 1;
-                    liveUsers = Math.max(150, liveUsers + change);
-                    visitorNumberEl.textContent = liveUsers.toLocaleString();
-                    heroUsersEl.textContent = liveUsers.toLocaleString();
-                }
-                
-                // Occasionally show random notifications
-                if (Math.random() > 0.9) {
-                    const notifications = [
-                        `<i class="fas fa-trophy"></i> New tournament starting in 10 minutes!`,
-                        `<i class="fas fa-bolt"></i> ₹5,000 won by player "HeadshotKing"!`,
-                        `<i class="fas fa-users"></i> ${Math.floor(Math.random() * 5) + 1} new players online now!`,
-                        `<i class="fas fa-gamepad"></i> Match #${Math.floor(Math.random() * 1000) + 1000} starting!`
-                    ];
-                    showNotification(notifications[Math.floor(Math.random() * notifications.length)]);
-                }
-            }, 5000); // Update every 5 seconds
             
             // Set up scroll event listener
             window.addEventListener('scroll', checkScroll);
