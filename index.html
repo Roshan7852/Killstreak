@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         /* --- 1. CORE SETTINGS --- */
@@ -42,7 +43,79 @@
                 radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.05) 0%, transparent 20%);
         }
 
-        /* --- 2. NAVBAR --- */
+        /* --- 2. SMOOTH ENTRANCE ANIMATIONS --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 193, 7, 0.6);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* --- 3. NAVBAR --- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -55,41 +128,58 @@
             background: rgba(9, 9, 9, 0.95);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInFromRight 0.8s ease-out;
         }
 
         nav.scrolled {
             padding: 15px 5%;
             background: rgba(9, 9, 9, 0.98);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(0);
         }
 
         .nav-logo { 
             height: 45px; 
             width: auto; 
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .nav-logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(-5deg);
+            filter: drop-shadow(0 0 10px var(--primary));
         }
 
         .nav-stats {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
             font-weight: 600;
         }
 
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 193, 7, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
         }
 
         .stat-number {
             color: var(--primary);
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
         }
 
         .stat-label {
@@ -102,159 +192,39 @@
         .btn-download {
             background: var(--primary);
             color: #000;
-            padding: 12px 35px;
-            font-weight: 700;
+            padding: 14px 40px;
+            font-weight: 800;
             font-size: 1.1rem;
             text-transform: uppercase;
             clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
             text-decoration: none;
-            transition: all 0.3s;
             border: none;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: glow 2s infinite ease-in-out;
+        }
+        
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-download:hover::before {
+            left: 100%;
         }
         
         .btn-download:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 0 25px var(--primary-glow);
-        }
-
-        /* --- 3. HIDDEN ADMIN PANEL (SIMPLIFIED) --- */
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border);
-            z-index: 1001;
-            transition: right 0.4s ease;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .admin-panel.active {
-            right: 0;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .admin-title {
-            color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .admin-close {
-            background: none;
-            border: none;
-            color: var(--text-white);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .admin-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .section-title {
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .visitor-table-container {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-
-        .visitor-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
-        .visitor-table th {
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--primary);
-            padding: 8px;
-            text-align: left;
-            font-weight: 700;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-        }
-
-        .visitor-table td {
-            padding: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .email-list {
-            max-height: 150px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
-            padding: 10px;
-        }
-
-        .email-item {
-            padding: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
-        }
-
-        .admin-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .admin-btn {
-            padding: 8px 15px;
-            background: var(--primary);
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
+            transform: scale(1.1) translateY(-3px); 
+            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.4);
+            animation: none;
         }
 
         /* --- 4. HERO SECTION --- */
@@ -263,13 +233,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 120px 8% 50px;
+            padding: 140px 8% 60px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(120px);
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 4s infinite ease-in-out;
         }
 
         .hero-text { 
             width: 50%; 
             z-index: 2; 
+            animation: fadeInLeft 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .hero-visual { 
@@ -277,6 +263,7 @@
             position: relative; 
             display: flex; 
             justify-content: center;
+            animation: fadeInRight 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
         }
 
         .status-badge {
@@ -285,179 +272,328 @@
             background: rgba(0, 255, 136, 0.1);
             color: #00ff88;
             border: 1px solid #00ff88;
-            padding: 8px 20px;
-            font-size: 0.9rem;
+            padding: 10px 25px;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 20px;
+            letter-spacing: 2px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out, pulse 2s infinite;
         }
 
         .status-dot { 
-            width: 10px; 
-            height: 10px; 
+            width: 12px; 
+            height: 12px; 
             background: #00ff88; 
             border-radius: 50%; 
-            margin-right: 10px; 
+            margin-right: 12px; 
+            box-shadow: 0 0 15px #00ff88;
+            animation: pulse 1.5s infinite;
         }
 
         .hero h1 {
-            font-size: 4.5rem;
+            font-size: 5.5rem;
             line-height: 0.9;
             font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, var(--primary), #ff9800, var(--primary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .hero h1 span { 
+            display: block;
             color: var(--primary);
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-grey);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             max-width: 90%;
-            line-height: 1.4;
+            line-height: 1.5;
+            animation: fadeIn 1s ease-out 0.5s both;
         }
 
         .hero-stats {
             display: flex;
-            gap: 30px;
-            margin: 25px 0;
+            gap: 40px;
+            margin: 40px 0;
+            animation: fadeIn 1s ease-out 0.7s both;
         }
 
         .hero-stat {
             text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 193, 7, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.2);
         }
 
         .hero-stat-number {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
             color: var(--primary);
             line-height: 1;
+            text-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
         }
 
         .hero-stat-label {
             font-size: 0.9rem;
             color: var(--text-grey);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        .hero-phone-container {
+            position: relative;
+            animation: float 6s infinite ease-in-out;
         }
 
         .hero-phone {
-            width: 300px;
-            border-radius: 35px;
-            border: 8px solid #1a1a1a;
-            box-shadow: 0 0 40px rgba(255, 193, 7, 0.2);
-            transform: perspective(1000px) rotateY(-10deg);
-            transition: transform 0.5s ease;
+            width: 320px;
+            border-radius: 40px;
+            border: 12px solid #1a1a1a;
+            box-shadow: 
+                0 0 60px rgba(255, 193, 7, 0.3),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+            transform: perspective(1500px) rotateY(-20deg) rotateX(10deg);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-phone::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: linear-gradient(45deg, #ffc107, #ff9800, #ff5722, #ffc107);
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(30px);
+            opacity: 0;
+            transition: opacity 0.6s;
+            animation: gradientShift 3s ease infinite;
         }
 
         .hero-phone:hover { 
-            transform: perspective(1000px) rotateY(0deg);
+            transform: perspective(1500px) rotateY(0deg) rotateX(0deg) scale(1.05);
+            box-shadow: 
+                0 0 100px rgba(255, 193, 7, 0.5),
+                inset 0 0 50px rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-phone:hover::before {
+            opacity: 0.4;
         }
         
         .hero-phone img { 
             width: 100%; 
             display: block; 
-            border-radius: 27px;
+            border-radius: 28px;
+            transition: transform 0.6s;
         }
-
-        .glow-circle {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            filter: blur(150px);
-            opacity: 0.15;
-            z-index: -1;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        
+        .hero-phone:hover img {
+            transform: scale(1.05);
         }
 
         /* --- 5. EMAIL CAPTURE --- */
         .email-capture {
-            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            background: linear-gradient(135deg, rgba(255,193,7,0.05) 0%, rgba(255,193,7,0.02) 100%);
             border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 15px;
-            margin: 40px auto;
-            max-width: 600px;
+            padding: 60px;
+            border-radius: 25px;
+            margin: 80px auto;
+            max-width: 800px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .email-capture::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,193,7,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .email-capture h3 {
             color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .email-capture p {
+            color: var(--text-grey);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .email-form {
             display: flex;
-            gap: 10px;
-            max-width: 400px;
+            gap: 15px;
+            max-width: 500px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .email-input {
             flex: 1;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             color: var(--text-white);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.3);
+            transform: translateY(-2px);
         }
 
         .email-submit {
-            padding: 12px 25px;
+            padding: 18px 40px;
             background: var(--primary);
             color: #000;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
+            border-radius: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .email-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .email-submit:hover::before {
+            left: 100%;
+        }
+
+        .email-submit:hover {
+            background: #ffd54f;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 193, 7, 0.4);
         }
 
         /* --- 6. MARQUEE --- */
         .marquee-container {
-            background: var(--primary);
+            background: linear-gradient(90deg, var(--primary), #ff9800, var(--primary));
+            background-size: 200% 200%;
             color: #000;
-            padding: 12px 0;
+            padding: 18px 0;
             overflow: hidden;
             white-space: nowrap;
             position: relative;
-            margin: 40px 0;
+            margin: 60px 0;
+            animation: gradientShift 3s ease infinite;
         }
 
         .marquee-content {
             display: inline-flex;
-            animation: scroll 25s linear infinite;
+            animation: scroll 20s linear infinite;
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             text-transform: uppercase;
-            gap: 30px;
+            gap: 50px;
         }
 
-        /* --- 7. GRID --- */
-        .section { 
-            padding: 80px 8%; 
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s;
         }
-        
-        .section-header { 
-            margin-bottom: 50px; 
+
+        .marquee-item:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- 7. FEATURES GRID --- */
+        .section { 
+            padding: 120px 8%; 
             position: relative;
         }
         
+        .section::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            top: 0;
+            left: 0;
+        }
+        
+        .section-header { 
+            margin-bottom: 80px; 
+            position: relative;
+            text-align: center;
+        }
+        
         .section-header h2 { 
-            font-size: 3rem; 
+            font-size: 4rem; 
             text-transform: uppercase; 
             line-height: 1; 
+            margin-bottom: 20px;
             position: relative;
             display: inline-block;
         }
@@ -465,196 +601,408 @@
         .section-header h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 80px;
-            height: 3px;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
             background: var(--primary);
+            border-radius: 3px;
+            animation: pulse 2s infinite;
         }
         
         .section-header .sub { 
             color: var(--primary); 
             font-weight: 700; 
-            letter-spacing: 2px; 
+            letter-spacing: 3px; 
             text-transform: uppercase; 
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            perspective: 1000px;
         }
 
         .glass-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s;
-            min-height: 250px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .glass-card:hover::before {
+            transform: translateX(100%);
         }
 
         .glass-card:hover { 
             border-color: var(--primary); 
-            transform: translateY(-10px); 
-            background: rgba(255, 193, 7, 0.05);
+            transform: translateY(-20px) rotateX(5deg) rotateY(5deg) scale(1.05); 
+            background: rgba(255, 193, 7, 0.08);
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.4),
+                0 0 30px rgba(255, 193, 7, 0.3);
         }
 
         .card-icon { 
-            font-size: 2.5rem; 
+            font-size: 4rem; 
             color: var(--primary); 
-            margin-bottom: 15px; 
+            margin-bottom: 25px; 
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+        
+        .glass-card:hover .card-icon {
+            transform: scale(1.3) rotate(15deg);
+            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.5));
         }
         
         .glass-card h3 { 
-            font-size: 1.6rem; 
-            margin-bottom: 10px; 
+            font-size: 2rem; 
+            margin-bottom: 20px; 
             text-transform: uppercase; 
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .glass-card:hover h3 {
+            color: var(--primary);
         }
         
         .glass-card p { 
             color: var(--text-grey); 
-            font-size: 1rem; 
-            line-height: 1.5;
+            font-size: 1.1rem; 
+            line-height: 1.7;
         }
 
-        /* --- 8. VISITOR COUNTER --- */
-        .visitor-counter {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            z-index: 999;
-            backdrop-filter: blur(10px);
-            min-width: 100px;
-            text-align: center;
-        }
-
-        .visitor-title {
-            font-size: 0.7rem;
-            color: var(--text-grey);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .visitor-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            line-height: 1;
-        }
-
-        /* --- 9. GALLERY --- */
+        /* --- 8. GALLERY --- */
         .gallery-flex {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 50px;
             flex-wrap: wrap;
+            perspective: 1000px;
         }
 
         .shot-frame {
-            width: 220px;
-            border: 3px solid #333;
-            border-radius: 15px;
-            transition: all 0.3s;
-            filter: grayscale(0.6);
+            width: 280px;
+            border: 4px solid #333;
+            border-radius: 25px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(0.7);
+            cursor: pointer;
             overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .shot-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9));
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+        }
+
+        .shot-frame:hover::before {
+            opacity: 1;
         }
 
         .shot-frame:hover { 
             filter: grayscale(0); 
-            transform: scale(1.05); 
+            transform: scale(1.15) rotateY(10deg) rotateX(5deg); 
             border-color: var(--primary);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.5),
+                0 0 40px rgba(255, 193, 7, 0.4);
         }
         
         .shot-frame img { 
             width: 100%; 
             display: block; 
-            border-radius: 12px;
+            border-radius: 21px;
+            transition: transform 0.6s;
+        }
+        
+        .shot-frame:hover img {
+            transform: scale(1.1);
         }
 
-        /* --- 10. INSTALL --- */
+        /* --- 9. INSTALL STEPS --- */
         .install-box {
-            background: linear-gradient(135deg, #111 0%, #050505 100%);
+            background: linear-gradient(135deg, rgba(255,193,7,0.05) 0%, rgba(255,193,7,0.02) 100%);
             border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 15px;
+            padding: 60px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .install-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), #ff9800, var(--primary));
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.4s;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .install-box:hover::before {
+            opacity: 0.3;
         }
 
         .step-row {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 25px;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        
+        .step-row:hover {
+            transform: translateX(20px);
+            background: rgba(255, 193, 7, 0.08);
         }
         
         .step-num {
-            font-size: 2.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            color: rgba(255, 193, 7, 0.1);
+            color: rgba(255, 193, 7, 0.15);
             line-height: 1;
-            margin-right: 15px;
+            margin-right: 30px;
+            transition: all 0.4s ease;
+        }
+        
+        .step-row:hover .step-num {
+            color: rgba(255, 193, 7, 0.3);
+            transform: scale(1.2);
         }
         
         .step-content h4 { 
             color: var(--primary); 
-            font-size: 1.2rem; 
-            margin-bottom: 5px; 
+            font-size: 1.6rem; 
+            margin-bottom: 10px; 
             text-transform: uppercase; 
         }
 
-        /* --- 11. FOOTER --- */
-        footer {
-            padding: 40px;
+        /* --- 10. VISITOR COUNTER --- */
+        .visitor-counter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 20px;
+            z-index: 999;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 140px;
             text-align: center;
-            border-top: 1px solid var(--border);
-            background: #000;
+            transform: translateY(0);
+            animation: float 4s infinite ease-in-out;
         }
 
-        /* --- 12. NOTIFICATION --- */
+        .visitor-counter:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.5),
+                0 0 30px rgba(255, 193, 7, 0.3);
+        }
+
+        .visitor-title {
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .visitor-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+        }
+
+        /* --- 11. ADMIN PANEL --- */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(25px);
+            border-left: 2px solid var(--primary);
+            z-index: 1001;
+            transition: right 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.8);
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        /* --- 12. FOOTER --- */
+        footer {
+            padding: 60px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--primary);
+            opacity: 0.1;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        /* --- 13. NOTIFICATION --- */
         .notification {
             position: fixed;
-            top: 100px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
+            top: 120px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.95);
             border-left: 4px solid var(--primary);
-            padding: 15px;
-            border-radius: 5px;
-            z-index: 1001;
-            transform: translateX(150%);
-            transition: transform 0.3s;
-            max-width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1002;
+            transform: translateX(150%) scale(0.8);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            max-width: 350px;
+            backdrop-filter: blur(10px);
         }
 
         .notification.show {
-            transform: translateX(0);
+            transform: translateX(0) scale(1);
         }
 
-        /* --- 13. RESPONSIVE --- */
+        /* --- 14. RESPONSIVE --- */
+        @media (max-width: 1100px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 3.5rem;
+            }
+        }
+
         @media (max-width: 900px) {
             .hero { 
                 flex-direction: column; 
                 text-align: center; 
-                padding-top: 100px; 
+                padding-top: 120px; 
             }
             
             .hero-text { 
                 width: 100%; 
-                margin-bottom: 50px; 
+                margin-bottom: 60px; 
             }
             
             .hero h1 { 
-                font-size: 3rem; 
+                font-size: 3.5rem; 
             }
             
             .hero-visual { 
                 width: 100%; 
+            }
+            
+            .hero-phone {
+                width: 280px;
             }
             
             .admin-panel {
@@ -669,6 +1017,10 @@
             .nav-stats {
                 display: none;
             }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @keyframes scroll {
@@ -682,43 +1034,43 @@
     <!-- Hidden Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <h2 class="admin-title">Admin Dashboard</h2>
+            <h2 class="admin-title">👑 Admin Dashboard</h2>
             <button class="admin-close" id="closeAdmin">✕</button>
         </div>
         
         <!-- Visitor Stats -->
-        <div class="admin-section">
-            <h3 class="section-title">Visitor Statistics</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="adminTotalVisitors">0</div>
+        <div class="admin-section" style="background: rgba(255,193,7,0.05); border-radius: 15px;">
+            <h3 class="section-title">📊 Visitor Statistics</h3>
+            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center;">
+                    <div class="stat-value" id="adminTotalVisitors" style="font-size: 2.5rem;">0</div>
                     <div>Total Visitors</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="adminLiveVisitors">0</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center;">
+                    <div class="stat-value" id="adminLiveVisitors" style="font-size: 2.5rem;">0</div>
                     <div>Live Now</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="adminEmails">0</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center;">
+                    <div class="stat-value" id="adminEmails" style="font-size: 2.5rem;">0</div>
                     <div>Emails</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="adminLocations">0</div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center;">
+                    <div class="stat-value" id="adminLocations" style="font-size: 2.5rem;">0</div>
                     <div>Locations</div>
                 </div>
             </div>
         </div>
         
         <!-- Recent Visitors -->
-        <div class="admin-section">
-            <h3 class="section-title">Recent Visitors</h3>
-            <div class="visitor-table-container">
-                <table class="visitor-table">
+        <div class="admin-section" style="background: rgba(255,255,255,0.03); border-radius: 15px; margin-top: 20px;">
+            <h3 class="section-title">👥 Recent Visitors</h3>
+            <div class="visitor-table-container" style="max-height: 200px; overflow-y: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th>Time</th>
-                            <th>Location</th>
-                            <th>Device</th>
+                            <th style="background: rgba(255,193,7,0.1); padding: 12px; text-align: left;">Time</th>
+                            <th style="background: rgba(255,193,7,0.1); padding: 12px; text-align: left;">Location</th>
+                            <th style="background: rgba(255,193,7,0.1); padding: 12px; text-align: left;">Device</th>
                         </tr>
                     </thead>
                     <tbody id="visitorTableBody"></tbody>
@@ -727,17 +1079,17 @@
         </div>
         
         <!-- Captured Emails -->
-        <div class="admin-section">
-            <h3 class="section-title">Captured Emails</h3>
-            <div class="email-list" id="emailList"></div>
+        <div class="admin-section" style="background: rgba(255,255,255,0.03); border-radius: 15px; margin-top: 20px;">
+            <h3 class="section-title">📧 Captured Emails</h3>
+            <div class="email-list" id="emailList" style="max-height: 150px; overflow-y: auto; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px;"></div>
         </div>
         
         <!-- Admin Controls -->
-        <div class="admin-section">
-            <h3 class="section-title">Controls</h3>
-            <div class="admin-controls">
-                <button class="admin-btn" id="exportData">Export Data</button>
-                <button class="admin-btn" id="clearData" style="background: #f44336; color: white;">Clear Data</button>
+        <div class="admin-section" style="background: rgba(255,255,255,0.03); border-radius: 15px; margin-top: 20px;">
+            <h3 class="section-title">⚙️ Controls</h3>
+            <div class="admin-controls" style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="admin-btn" id="exportData" style="flex: 1; padding: 15px; background: var(--primary); color: black; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Export Data</button>
+                <button class="admin-btn" id="clearData" style="flex: 1; padding: 15px; background: #f44336; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Clear Data</button>
             </div>
         </div>
     </div>
@@ -754,19 +1106,28 @@
             </div>
         </div>
         
-        <button onclick="startDownload()" class="btn-download">Get App</button>
+        <button onclick="startDownload()" class="btn-download">🚀 Get App</button>
     </nav>
 
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-bell" style="color: var(--primary); font-size: 1.2rem;"></i>
+            <span id="notificationText">Welcome to Killstreak!</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
     <header class="hero">
         <div class="hero-text">
             <div class="status-badge">
                 <div class="status-dot"></div> 
-                <span>Servers Online</span>
+                <span>🚀 Servers Online</span>
             </div>
             
-            <h1>Play.<br><span>Dominate.</span><br>Earn.</h1>
+            <h1>Play.<span>Dominate.</span>Earn.</h1>
             
-            <p>The next-gen tournament platform for BGMI & Free Fire. Low competition, instant UPI withdrawals, and 100% fair play.</p>
+            <p>Join thousands of players in the ultimate BGMI & Free Fire tournament platform. Low competition, instant UPI withdrawals, and 100% fair play.</p>
             
             <div class="hero-stats">
                 <div class="hero-stat">
@@ -777,69 +1138,81 @@
                     <div class="hero-stat-number" id="activeNow">0</div>
                     <div class="hero-stat-label">Active Now</div>
                 </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">₹500K+</div>
+                    <div class="hero-stat-label">Paid Out</div>
+                </div>
             </div>
             
-            <button onclick="startDownload()" class="btn-download" style="padding: 15px 40px; font-size: 1.3rem;">
-                Download APK v1.0
+            <button onclick="startDownload()" class="btn-download" style="padding: 18px 50px; font-size: 1.4rem; margin-top: 20px;">
+                ⬇️ Download APK v1.0
             </button>
-            <p style="font-size: 0.8rem; color: #555; margin-top: 10px;">Secure Download • 60MB • Android 8+</p>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">⚡ Secure Download • 60MB • Android 8+</p>
         </div>
 
         <div class="hero-visual">
-            <div class="glow-circle"></div>
-            <div class="hero-phone">
-                <img src="https://image2url.com/r2/default/images/1767254272163-eeb8c88c-9a2b-4976-9469-a0e78fdf1f07.jpeg" alt="App Home">
+            <div class="hero-phone-container">
+                <div class="hero-phone">
+                    <img src="https://image2url.com/r2/default/images/1767254272163-eeb8c88c-9a2b-4976-9469-a0e78fdf1f07.jpeg" alt="App Home">
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Email Capture -->
     <div class="email-capture">
-        <h3>Get Early Access</h3>
-        <p>Enter your email to get notified about exclusive tournaments and early access.</p>
+        <h3>🎮 Get Early Access</h3>
+        <p>Enter your email to get notified about exclusive tournaments, special rewards, and early access to new features.</p>
         <form class="email-form" id="emailForm">
-            <input type="email" class="email-input" placeholder="Enter your email" required id="userEmail">
-            <button type="submit" class="email-submit">Notify Me</button>
+            <input type="email" class="email-input" placeholder="🎯 Enter your email address" required id="userEmail">
+            <button type="submit" class="email-submit">🚀 Notify Me</button>
         </form>
-        <p style="font-size: 0.8rem; color: #666; margin-top: 15px;">No spam. Unsubscribe anytime.</p>
+        <p style="font-size: 0.9rem; color: #777; margin-top: 20px;">🔒 We respect your privacy. No spam. Unsubscribe anytime.</p>
     </div>
 
+    <!-- Marquee -->
     <div class="marquee-container">
         <div class="marquee-content">
-            <span>WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •</span>
-            <span>WINNER WINNER CHICKEN DINNER • BOOYAH • INSTANT WITHDRAWAL • PLAY DAILY • KILLSTREAK ESPORTS •</span>
+            <div class="marquee-item">🏆 WINNER WINNER CHICKEN DINNER</div>
+            <div class="marquee-item">🔥 BOOYAH</div>
+            <div class="marquee-item">⚡ INSTANT WITHDRAWAL</div>
+            <div class="marquee-item">🎮 PLAY DAILY</div>
+            <div class="marquee-item">👑 KILLSTREAK ESPORTS</div>
+            <div class="marquee-item">💰 REAL CASH REWARDS</div>
         </div>
     </div>
 
+    <!-- Features -->
     <section class="section" id="features">
         <div class="section-header">
-            <div class="sub">Why Killstreak?</div>
-            <h2>Built for Grinders</h2>
+            <div class="sub">Why Choose Killstreak?</div>
+            <h2>Built for Champions</h2>
         </div>
         
         <div class="grid">
-            <div class="glass-card">
+            <div class="glass-card" onmouseenter="playHoverSound()">
                 <div class="card-icon">⚡</div>
                 <h3>Instant Payouts</h3>
-                <p>No waiting for 24 hours. Withdraw your kill earnings directly to UPI immediately after the match ends.</p>
+                <p>Withdraw your earnings directly to UPI within minutes. No waiting for 24 hours like other platforms.</p>
             </div>
-            <div class="glass-card">
+            <div class="glass-card" onmouseenter="playHoverSound()">
                 <div class="card-icon">🛡️</div>
-                <h3>Anti-Cheat</h3>
-                <p>We take fair play seriously. Our manual spectating and report system ensures a hacker-free lobby.</p>
+                <h3>Anti-Cheat System</h3>
+                <p>Advanced detection and manual spectating ensure fair play in every match. Zero tolerance for hackers.</p>
             </div>
-            <div class="glass-card">
+            <div class="glass-card" onmouseenter="playHoverSound()">
                 <div class="card-icon">📊</div>
-                <h3>Detailed Stats</h3>
-                <p>Track your Kill/Death ratio, total earnings, and match history with our pro-level dashboard.</p>
+                <h3>Pro Dashboard</h3>
+                <p>Track your K/D ratio, earnings history, and tournament stats with our professional analytics dashboard.</p>
             </div>
         </div>
     </section>
 
-    <section class="section" id="gallery" style="background: #000;">
+    <!-- Gallery -->
+    <section class="section" id="gallery" style="background: linear-gradient(180deg, #000 0%, #111 100%);">
         <div class="section-header" style="text-align: center;">
-            <div class="sub">Interface</div>
-            <h2>Clean Dark Mode</h2>
+            <div class="sub">App Interface</div>
+            <h2>Modern Dark UI</h2>
         </div>
         <div class="gallery-flex">
             <div class="shot-frame">
@@ -854,18 +1227,19 @@
         </div>
     </section>
 
+    <!-- Install Steps -->
     <section class="section" id="install">
         <div class="install-box">
             <div class="section-header">
-                <h2>How to Install</h2>
-                <p style="color: #666;">Install safely with these simple steps:</p>
+                <h2 style="color: var(--primary);">📥 How to Install</h2>
+                <p style="color: #aaa; font-size: 1.2rem;">Follow these simple steps to start earning today:</p>
             </div>
 
             <div class="step-row">
                 <div class="step-num">01</div>
                 <div class="step-content">
                     <h4>Download APK</h4>
-                    <p>Click the download button. Ignore browser warnings about unknown files.</p>
+                    <p style="color: #aaa;">Click the download button. Ignore browser warnings - this is standard for off-market apps.</p>
                 </div>
             </div>
 
@@ -873,36 +1247,50 @@
                 <div class="step-num">02</div>
                 <div class="step-content">
                     <h4>Enable Unknown Sources</h4>
-                    <p>Go to Settings > Security > Install Unknown Apps > Allow for your browser.</p>
+                    <p style="color: #aaa;">Go to Settings > Security > Install Unknown Apps > Allow for your browser.</p>
                 </div>
             </div>
 
             <div class="step-row">
                 <div class="step-num">03</div>
                 <div class="step-content">
-                    <h4>Install & Win</h4>
-                    <p>Open the file, install it, and register to start your first match.</p>
+                    <h4>Install & Start Winning</h4>
+                    <p style="color: #aaa;">Open the file, install the app, register, and join your first match to earn real money!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Visitor Counter -->
-    <div class="visitor-counter">
-        <div class="visitor-title">Live Visitors</div>
+    <!-- Floating Visitor Counter -->
+    <div class="visitor-counter" id="visitorCounter">
+        <div class="visitor-title">🌐 Live Visitors</div>
         <div class="visitor-number" id="visitorNumber">0</div>
+        <div style="font-size: 0.7rem; color: #777; margin-top: 5px;">👁️ On Site Now</div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
     </div>
 
     <footer>
-        <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" style="height: 50px; opacity: 0.5; margin-bottom: 15px;">
-        <p style="color: #444; font-size: 0.9rem;">&copy; 2025 Killstreak Esports. Play Responsibly.</p>
-        <p style="color: #555; font-size: 0.8rem; margin-top: 10px;">Total Visitors: <span id="footerVisitors">0</span></p>
+        <img src="https://image2url.com/r2/default/images/1767247367878-b1c5d043-c78d-4c17-99fc-65978567deef.png" alt="Logo" style="height: 60px; margin-bottom: 25px; opacity: 0.7;">
+        <p style="color: #777; font-size: 1rem; margin-bottom: 10px;">&copy; 2025 Killstreak Esports. Play Responsibly.</p>
+        <p style="color: #666; font-size: 0.9rem;">Total Visitors: <span id="footerVisitors" style="color: var(--primary); font-weight: bold;">0</span></p>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // ========== SIMPLIFIED VISITOR TRACKING ==========
-        
-        // Initialize data
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // ========== VISITOR TRACKING ==========
         let visitorData = {
             totalVisitors: 0,
             liveVisitors: 15,
@@ -911,49 +1299,61 @@
             countries: []
         };
 
-        // Load from localStorage
+        // Load data from localStorage
         function loadData() {
             const saved = localStorage.getItem('killstreakData');
             if (saved) {
                 visitorData = JSON.parse(saved);
             } else {
-                // Initial values
-                visitorData.totalVisitors = Math.floor(Math.random() * 500) + 1250;
-                visitorData.liveVisitors = Math.floor(Math.random() * 30) + 15;
+                visitorData.totalVisitors = Math.floor(Math.random() * 500) + 1500;
+                visitorData.liveVisitors = Math.floor(Math.random() * 30) + 20;
                 saveData();
             }
             updateDisplay();
         }
 
-        // Save to localStorage
+        // Save data
         function saveData() {
             localStorage.setItem('killstreakData', JSON.stringify(visitorData));
         }
 
         // Track new visitor
-        function trackVisitor() {
+        async function trackVisitor() {
             visitorData.totalVisitors++;
             
-            // Get basic visitor info
-            const visitor = {
-                id: Date.now(),
-                time: new Date().toLocaleTimeString(),
-                date: new Date().toLocaleDateString(),
-                device: getDeviceType(),
-                browser: getBrowser(),
-                location: await getLocation(),
-                ip: await getIP()
-            };
-            
-            visitorData.visitors.unshift(visitor);
-            
-            // Keep only last 50 visitors
-            if (visitorData.visitors.length > 50) {
-                visitorData.visitors = visitorData.visitors.slice(0, 50);
+            try {
+                // Get IP
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                
+                // Get location
+                const locRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const location = await locRes.json();
+                
+                const visitor = {
+                    id: Date.now(),
+                    ip: ipData.ip,
+                    location: `${location.city || 'Unknown'}, ${location.country_name || 'Unknown'}`,
+                    device: getDeviceType(),
+                    time: new Date().toLocaleTimeString(),
+                    date: new Date().toLocaleDateString()
+                };
+                
+                visitorData.visitors.unshift(visitor);
+                if (visitorData.visitors.length > 50) visitorData.visitors = visitorData.visitors.slice(0, 50);
+                
+            } catch (error) {
+                console.log('Using simulated visitor data');
+                const visitor = {
+                    id: Date.now(),
+                    ip: 'Simulated',
+                    location: 'Unknown',
+                    device: getDeviceType(),
+                    time: new Date().toLocaleTimeString(),
+                    date: new Date().toLocaleDateString()
+                };
+                visitorData.visitors.unshift(visitor);
             }
-            
-            // Update live count
-            visitorData.liveVisitors = Math.floor(Math.random() * 20) + 10;
             
             saveData();
             updateDisplay();
@@ -963,40 +1363,9 @@
         // Get device type
         function getDeviceType() {
             const ua = navigator.userAgent;
-            if (/mobile/i.test(ua)) return 'Mobile';
-            if (/tablet/i.test(ua)) return 'Tablet';
-            return 'Desktop';
-        }
-
-        // Get browser
-        function getBrowser() {
-            const ua = navigator.userAgent;
-            if (/chrome/i.test(ua)) return 'Chrome';
-            if (/firefox/i.test(ua)) return 'Firefox';
-            if (/safari/i.test(ua)) return 'Safari';
-            return 'Other';
-        }
-
-        // Get IP (simplified)
-        async function getIP() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return data.ip;
-            } catch {
-                return 'Unknown';
-            }
-        }
-
-        // Get location (simplified)
-        async function getLocation() {
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                return `${data.city || 'Unknown'}, ${data.country_name || 'Unknown'}`;
-            } catch {
-                return 'Unknown';
-            }
+            if (/mobile/i.test(ua)) return '📱 Mobile';
+            if (/tablet/i.test(ua)) return '📱 Tablet';
+            return '💻 Desktop';
         }
 
         // Capture email
@@ -1008,54 +1377,64 @@
             };
             
             visitorData.emails.unshift(emailData);
-            
-            // Keep only last 30 emails
-            if (visitorData.emails.length > 30) {
-                visitorData.emails = visitorData.emails.slice(0, 30);
-            }
-            
-            // Update countries from email domain
-            const domain = email.split('@')[1];
-            if (domain && !visitorData.countries.includes(domain.split('.')[1])) {
-                visitorData.countries.push(domain.split('.')[1]);
-            }
+            if (visitorData.emails.length > 30) visitorData.emails = visitorData.emails.slice(0, 30);
             
             saveData();
             updateAdminPanel();
-            
-            // Show notification
-            showNotification('Email captured successfully!');
+            showNotification('✅ Email captured successfully!');
             return true;
         }
 
         // Update display
         function updateDisplay() {
-            // Update all counters
-            document.getElementById('totalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
-            document.getElementById('activeNow').textContent = visitorData.liveVisitors.toLocaleString();
-            document.getElementById('liveUsers').textContent = visitorData.liveVisitors.toLocaleString();
-            document.getElementById('visitorNumber').textContent = visitorData.liveVisitors.toLocaleString();
-            document.getElementById('footerVisitors').textContent = visitorData.totalVisitors.toLocaleString();
+            // Animate counter updates
+            animateCounter('totalVisitors', visitorData.totalVisitors);
+            animateCounter('activeNow', visitorData.liveVisitors);
+            animateCounter('liveUsers', visitorData.liveVisitors);
+            animateCounter('visitorNumber', visitorData.liveVisitors);
+            animateCounter('footerVisitors', visitorData.totalVisitors);
+        }
+
+        // Animate counter
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const current = parseInt(element.textContent.replace(/,/g, '')) || 0;
+            const diff = targetValue - current;
+            const duration = 800;
+            const steps = 20;
+            const increment = diff / steps;
+            
+            let currentStep = 0;
+            const timer = setInterval(() => {
+                currentStep++;
+                const value = Math.floor(current + (increment * currentStep));
+                element.textContent = value.toLocaleString();
+                
+                if (currentStep >= steps) {
+                    clearInterval(timer);
+                    element.textContent = targetValue.toLocaleString();
+                }
+            }, duration / steps);
         }
 
         // Update admin panel
         function updateAdminPanel() {
-            // Update stats
             document.getElementById('adminTotalVisitors').textContent = visitorData.totalVisitors.toLocaleString();
             document.getElementById('adminLiveVisitors').textContent = visitorData.liveVisitors.toLocaleString();
             document.getElementById('adminEmails').textContent = visitorData.emails.length;
-            document.getElementById('adminLocations').textContent = visitorData.countries.length;
+            document.getElementById('adminLocations').textContent = new Set(visitorData.visitors.map(v => v.location)).size;
             
             // Update visitor table
             const tableBody = document.getElementById('visitorTableBody');
             tableBody.innerHTML = '';
-            
             visitorData.visitors.slice(0, 10).forEach(visitor => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${visitor.time}</td>
-                    <td>${visitor.location}</td>
-                    <td>${visitor.device}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">${visitor.time}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">${visitor.location}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">${visitor.device}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -1063,12 +1442,12 @@
             // Update email list
             const emailList = document.getElementById('emailList');
             emailList.innerHTML = '';
-            
             visitorData.emails.slice(0, 10).forEach(emailData => {
-                const emailItem = document.createElement('div');
-                emailItem.className = 'email-item';
-                emailItem.textContent = `${emailData.email} - ${emailData.date}`;
-                emailList.appendChild(emailItem);
+                const div = document.createElement('div');
+                div.style.padding = '8px';
+                div.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+                div.textContent = `${emailData.email} - ${emailData.time}`;
+                emailList.appendChild(div);
             });
         }
 
@@ -1080,12 +1459,12 @@
             link.setAttribute('href', dataUri);
             link.setAttribute('download', `killstreak-data-${new Date().toISOString().split('T')[0]}.json`);
             link.click();
-            showNotification('Data exported!');
+            showNotification('📥 Data exported successfully!');
         }
 
         // Clear data
         function clearData() {
-            if (confirm('Clear all visitor data?')) {
+            if (confirm('⚠️ Clear all visitor data? This cannot be undone.')) {
                 visitorData = {
                     totalVisitors: 0,
                     liveVisitors: 0,
@@ -1096,98 +1475,140 @@
                 saveData();
                 updateDisplay();
                 updateAdminPanel();
-                showNotification('Data cleared!');
+                showNotification('🗑️ All data cleared!');
             }
         }
 
         // Show notification
         function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-check-circle" style="color: var(--primary);"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.classList.add('show'), 10);
+            const notification = document.getElementById('notification');
+            document.getElementById('notificationText').textContent = message;
+            notification.classList.add('show');
             setTimeout(() => {
                 notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            }, 4000);
         }
 
-        // ========== ADMIN PANEL ACCESS ==========
+        // Play hover sound (simulated)
+        function playHoverSound() {
+            // Create a subtle click sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        // ========== ADMIN PANEL ==========
         let secretCode = '';
         const ADMIN_CODE = 'admin123';
 
         document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'a') {
-                e.preventDefault();
-                document.getElementById('adminPanel').classList.add('active');
-            }
-            
-            // Secret code: admin123
+            // Secret code entry
             secretCode += e.key.toLowerCase();
             if (secretCode.includes(ADMIN_CODE)) {
                 document.getElementById('adminPanel').classList.add('active');
                 secretCode = '';
             }
             
-            // Keep last 10 characters
-            if (secretCode.length > 10) {
-                secretCode = secretCode.slice(-10);
+            // Keep only last 10 characters
+            if (secretCode.length > 10) secretCode = secretCode.slice(-10);
+            
+            // Escape to close admin panel
+            if (e.key === 'Escape') {
+                document.getElementById('adminPanel').classList.remove('active');
             }
         });
 
-        // ========== MAIN WEBSITE FUNCTIONS ==========
+        // ========== ANIMATIONS & EFFECTS ==========
         
-        function startDownload() {
-            const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
-            window.open(apkUrl, '_blank');
-            showNotification('Download started!');
-        }
-
-        // Phone hover effect
-        const phone = document.querySelector('.hero-phone');
-        phone.addEventListener('mouseenter', () => {
-            phone.style.transform = 'perspective(1000px) rotateY(0deg)';
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
-        
-        phone.addEventListener('mouseleave', () => {
-            phone.style.transform = 'perspective(1000px) rotateY(-10deg)';
-        });
 
-        // Scroll effects
+        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
+            if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+            
+            // Parallax effect for hero
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
         });
+
+        // Phone hover effect with 3D rotation
+        const phone = document.querySelector('.hero-phone');
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 900) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
+                phone.style.transform = `perspective(1500px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+
+        // Reset phone rotation
+        phone.addEventListener('mouseleave', () => {
+            phone.style.transform = 'perspective(1500px) rotateY(-20deg) rotateX(10deg)';
+        });
+
+        // Start download
+        function startDownload() {
+            const apkUrl = "https://drive.google.com/file/d/1nlkad7vC3DwaYCD4uF8czkhdbmcowrjd/view?usp=sharing";
+            window.open(apkUrl, '_blank');
+            showNotification('⬇️ Download started! Check your notifications.');
+            
+            // Add download animation to button
+            const btn = document.querySelector('.btn-download');
+            btn.style.animation = 'none';
+            setTimeout(() => btn.style.animation = 'glow 2s infinite ease-in-out', 100);
+        }
 
         // ========== INITIALIZATION ==========
         document.addEventListener('DOMContentLoaded', () => {
-            // Load data
+            // Load data and track visitor
             loadData();
+            setTimeout(() => trackVisitor(), 1000);
             
-            // Track current visitor
-            setTimeout(() => {
-                trackVisitor();
-                showNotification('Welcome to Killstreak!');
-            }, 1000);
-            
-            // Email form
+            // Email form submission
             document.getElementById('emailForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const email = document.getElementById('userEmail').value;
                 if (email && email.includes('@')) {
                     if (captureEmail(email)) {
                         document.getElementById('userEmail').value = '';
+                        // Add success animation
+                        const form = document.getElementById('emailForm');
+                        form.style.transform = 'scale(0.95)';
+                        setTimeout(() => form.style.transform = 'scale(1)', 300);
                     }
                 }
             });
@@ -1205,31 +1626,50 @@
                 const adminPanel = document.getElementById('adminPanel');
                 if (adminPanel.classList.contains('active') && 
                     !adminPanel.contains(e.target) && 
-                    !e.target.closest('.admin-btn')) {
+                    !e.target.closest('.btn-download')) {
                     adminPanel.classList.remove('active');
                 }
             });
             
-            // Simulate live visitor updates
+            // Live visitor simulation
             setInterval(() => {
-                // Randomly update live visitors
-                const change = Math.floor(Math.random() * 3) - 1;
-                visitorData.liveVisitors = Math.max(5, visitorData.liveVisitors + change);
+                const change = Math.floor(Math.random() * 5) - 2;
+                visitorData.liveVisitors = Math.max(10, visitorData.liveVisitors + change);
+                updateDisplay();
                 
-                // Update displays
-                document.getElementById('activeNow').textContent = visitorData.liveVisitors;
-                document.getElementById('liveUsers').textContent = visitorData.liveVisitors;
-                document.getElementById('visitorNumber').textContent = visitorData.liveVisitors;
-                
-                // Update admin panel if open
-                if (document.getElementById('adminPanel').classList.contains('active')) {
-                    document.getElementById('adminLiveVisitors').textContent = visitorData.liveVisitors;
+                // Random notifications
+                if (Math.random() > 0.95) {
+                    const messages = [
+                        '🎮 New tournament starting soon!',
+                        '💰 ₹10,000 won by player "ProGamer"!',
+                        '👥 5 new players joined today!',
+                        '⚡ Instant withdrawal feature active!'
+                    ];
+                    showNotification(messages[Math.floor(Math.random() * messages.length)]);
                 }
-            }, 10000); // Update every 10 seconds
+            }, 8000);
             
-            // Auto-save every minute
-            setInterval(saveData, 60000);
+            // Auto-save every 2 minutes
+            setInterval(saveData, 120000);
+            
+            // Initialize floating elements
+            createFloatingElements();
         });
+
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.querySelector('.floating-elements');
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.width = element.style.height = `${Math.random() * 60 + 20}px`;
+                element.style.top = `${Math.random() * 100}%`;
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.animationDelay = `${Math.random() * -20}s`;
+                element.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                container.appendChild(element);
+            }
+        }
     </script>
 </body>
 </html>
